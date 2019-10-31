@@ -1,5 +1,5 @@
 ﻿import { Injectable,isDevMode } from '@angular/core';
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 
 
 
@@ -14,7 +14,7 @@ export class BDDProvider {
     constructor(private sqlite: SQLite) {
         this.listeTables = ['airbnb'];
         this.getBDD().then((data) => { this.db = data; });
-    }
+    } 
 
 
     public isBDDMAJ(): boolean {
