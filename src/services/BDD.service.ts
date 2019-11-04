@@ -85,14 +85,14 @@ export class BDDProvider {
                     let lProm: Array<Promise<any>> = [];
                     //creation des tables
                     //table elevage 
-                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS airbnb(IDAIRBNB integer PRIMARY KEY, NOM text, VILLE text, X text, Y text,)', []));
-                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS elevage(IDAIRBNB integer PRIMARY KEY, NOM text, VILLE text, X text, Y text,)', []));
-                    
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS airbnb(IDAIRBNB integer PRIMARY KEY, NOM text, VILLE text, X text, Y text)', []));
+                  
                     //*/
                     //on attend la fin de l'execution de tous les ordres sql
                     await Promise.all(lProm);
                     resolve();
                 } catch (e) {
+                    console.log(e);
                     reject(e);
                 }
             });
@@ -159,24 +159,5 @@ export class BDDProvider {
         }
         
 
-    }
-   
-
-
-    public async getTypeAppareil() {
-        let sRequete = 'SELECT IDTYPEAPP, COTYPEAPP, LIBELLE FROM type_appareil_controle';
-        let res = await this.db.executeSql(sRequete, []);
-        let listeRes: Array<any> = [];
-        let elem: any = {};
-        for (var i = 0; i < res.rows.length; i++) {
-            elem = {};
-            let ligne = res.rows.item(i);
-            elem.IDTYPEAPP = ligne.IDTYPEAPP;
-            elem.COTYPEAPP = ligne.COTYPEAPP;
-            elem.LIBELLE   = ligne.LIBELLE;
-            listeRes.push(elem);
-        }
-        //console.log(listeRes);
-        return listeRes;
     }
 } 
