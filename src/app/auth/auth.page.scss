@@ -25,10 +25,6 @@ ion-list.list{
   width: 80%;
 }   
 
-.zoneTest{
-  width: 100%;
-}
-
 ion-item.item.item-block{
   background-color:transparent;
 }
@@ -37,54 +33,10 @@ ion-item.item.item-block{
   border-bottom : none;
 }
 
+ion-list.list{
+    width: 50%;
+}   
 
-  
-div.zoneTest {
-  text-align:center;
-
-  ion-img{
-  max-width: 80%;
-  padding-top: 5rem;
-  margin-bottom : 2rem;
-  background-color : transparent;
-  contain: inherit;
-  }
-}
-
-
-.footer {
-  ion-col{
-      text-align: center;
-  }
-  img {
-      max-width: 50%;
-      text-align : center;
-  }
-} 
-
-
-.zone-test img{
-  max-width : 20rem;  
-}
-
-@media screen and (min-width: 1200px) {
-
-  img{
-      max-width : 30rem;
-  }
-  .footer {
-      img {
-          max-width: 20rem;
-          text-align : center;
-      }
-  } 
-
-  ion-list.list{
-      width: 50%;
-  }   
-
-  ion-content ion-item-divider.item.item-divider{
-      width : 40%;
-  }
-
+ion-content ion-item-divider.item.item-divider{
+    width : 40%;
 }
