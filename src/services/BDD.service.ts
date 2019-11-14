@@ -85,14 +85,35 @@ export class BDDProvider {
                     let lProm: Array<Promise<any>> = [];
                     //creation des tables
                     //table elevage 
-                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS airbnb(IDAIRBNB integer PRIMARY KEY, NOM text, VILLE text, X text, Y text)', []));
-                  
-                    //*/
+                    
+                    console.log("ok");
+
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Transac(idTransaction integer PRIMARY KEY,  montantTransaction real,  libTransaction text,  dateTransaction text,  idCompte integer)', []));
+                     
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Poste(idPoste integer PRIMARY KEY,  libPoste text,  codePoste text)', []));
+
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Atelier(idAtelier integer PRIMARY KEY,  libAtelier text,  codeAtelier text)', []));
+
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Affectation(  idAtelier integer,  idPoste integer,  idTransaction integer)', []));
+
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS DonneesTechniques(  idDonnees integer PRIMARY KEY,  dateDonnees text,  Poids numeric,  Nuchep text,  Nubovi text,  Sexe text,  CodeRace text,  CauseSortie text,  idTransaction integer)', []));
+
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Compte(idCompte integer PRIMARY KEY,  login text,  mdp text,  libCompte text,  codeBanque text,  typeCompte text)', []));
+
+                    // lProm.push(tx.executeSql('ALTER TABLE Transaction ADD FOREIGN KEY(idCompte) REFERENCES Compte (idCompte)', []));
+
+                    // lProm.push(tx.executeSql('ALTER TABLE Affectation ADD FOREIGN KEY(idAtelier) REFERENCES Atelier (idAtelier)', []));
+
+                    // lProm.push(tx.executeSql('ALTER TABLE Affectation ADD FOREIGN KEY(idPoste) REFERENCES Poste (idPoste)', []));
+
+                    // lProm.push(tx.executeSql('ALTER TABLE Affectation ADD FOREIGN KEY(idTransaction) REFERENCES Transaction (idTransaction)', []));
+
+                    // lProm.push(tx.executeSql('ALTER TABLE DonneesTechniques ADD FOREIGN KEY (idTransaction) REFERENCES Transaction (idTransaction)', []));
+                    
                     //on attend la fin de l'execution de tous les ordres sql
                     await Promise.all(lProm);
                     resolve();
                 } catch (e) {
-                    console.log(e);
                     reject(e);
                 }
             });
@@ -159,5 +180,24 @@ export class BDDProvider {
         }
         
 
+    }
+   
+
+
+    public async getTypeAppareil() {
+        let sRequete = 'SELECT IDTYPEAPP, COTYPEAPP, LIBELLE FROM type_appareil_controle';
+        let res = await this.db.executeSql(sRequete, []);
+        let listeRes: Array<any> = [];
+        let elem: any = {};
+        for (var i = 0; i < res.rows.length; i++) {
+            elem = {};
+            let ligne = res.rows.item(i);
+            elem.IDTYPEAPP = ligne.IDTYPEAPP;
+            elem.COTYPEAPP = ligne.COTYPEAPP;
+            elem.LIBELLE   = ligne.LIBELLE;
+            listeRes.push(elem);
+        }
+        //console.log(listeRes);
+        return listeRes;
     }
 } 
