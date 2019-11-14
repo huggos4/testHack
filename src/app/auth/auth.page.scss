@@ -1,0 +1,90 @@
+ion-content {
+  background-position: center center;
+  background-size:cover;
+}
+
+ion-content ion-item-divider.item.item-divider{
+  box-shadow: 0 5px 11px 0 rgba(0,0,0,.18), 0 2px 15px 0 rgba(0,0,0,.15);
+  border-radius: .125rem;
+  width : 60%;
+  margin-bottom : -0.5rem;
+  margin-left : auto;
+  margin-right: auto;
+  text-align : center;
+}
+
+ion-list.list{
+  margin-top: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5px;
+  background-color:white;
+  font-weight : bold;
+  box-shadow: 0px 0px 10px 0px #ccc;
+  border-radius: 7px;
+  width: 80%;
+}   
+
+.zoneTest{
+  width: 100%;
+}
+
+ion-item.item.item-block{
+  background-color:transparent;
+}
+
+  .auth input{
+  border-bottom : none;
+}
+
+
+  
+div.zoneTest {
+  text-align:center;
+
+  ion-img{
+  max-width: 80%;
+  padding-top: 5rem;
+  margin-bottom : 2rem;
+  background-color : transparent;
+  contain: inherit;
+  }
+}
+
+
+.footer {
+  ion-col{
+      text-align: center;
+  }
+  img {
+      max-width: 50%;
+      text-align : center;
+  }
+} 
+
+
+.zone-test img{
+  max-width : 20rem;  
+}
+
+@media screen and (min-width: 1200px) {
+
+  img{
+      max-width : 30rem;
+  }
+  .footer {
+      img {
+          max-width: 20rem;
+          text-align : center;
+      }
+  } 
+
+  ion-list.list{
+      width: 50%;
+  }   
+
+  ion-content ion-item-divider.item.item-divider{
+      width : 40%;
+  }
+
+}

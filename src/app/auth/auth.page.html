@@ -1,15 +1,38 @@
-<ion-content>
-  <div>
-  <ion-item>
-    <ion-label>Pseudo</ion-label>
-    <ion-input></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Mot de passe</ion-label>
-    <ion-input type='password'></ion-input>
-  </ion-item>
-  <ion-item >
-      <ion-button align-center color="warning">Connexion</ion-button>
-    </ion-item>
-  </div>
+
+<ion-content class="auth">
+    <div class="zoneTest" (click)="clickActiveTest()">
+        <ion-img src=""></ion-img>
+    </div>
+    <div class="enteteAuth">
+        <input style="display:none" type="text" name="fakeusernameremembered" />
+        <input style="display:none" type="password" name="fakepasswordremembered" />
+    </div>
+    <ion-item-divider color="primary"></ion-item-divider>
+    <ion-list>
+        <div>
+            <ion-item>
+                <ion-label fixed>pseudo</ion-label>
+                <ion-input  type="text" autocomplete="off" placeholder='pseudo'></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label fixed>mdp</ion-label>
+                <ion-input type="password" placeholder="mdp"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>
+                  mdp
+                </ion-label>
+                <ion-toggle  color="secondary"></ion-toggle>
+            </ion-item>
+
+            <div padding>
+                <button ion-button color="secondary" block (click)="connexion()">Connexion</button>
+            </div>
+            <ion-item>
+                <ion-label item-start> Version </ion-label>
+                <ion-label item-end>0.01 </ion-label>
+            </ion-item>
+        </div>            
+    </ion-list>
 </ion-content>
