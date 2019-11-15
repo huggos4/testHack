@@ -13,7 +13,7 @@ export class addBanquePage {
   }
   openBanque(code:string){
     sessionStorage.setItem("Code", code);
-    this.nav.navigate("/idbanque");
+    this.nav.navigateRoot("tabs/idbanque");
     
   }
 
