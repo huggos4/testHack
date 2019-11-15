@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Ajouter un compte
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row (click)="openBanque('CA')">
+          <ion-col size="4">
+            <img src="assets\1200px-Crédit_Agricole.svg.png">
+          </ion-col>
+          <ion-col size="4" offset="1">
+             <ion-label #label><div id="label">Crédit agricole</div></ion-label>
+            </ion-col>
+        </ion-row>
+        <ion-row (click)="openBanque('BP')">
+          <ion-col size="4">
+              <img src="assets\Banquepopulaire_logo.svg">
+          </ion-col>
+          <ion-col size="4" offset="1">
+              <ion-label><div id="label">Banque populaire</div></ion-label>
+             </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

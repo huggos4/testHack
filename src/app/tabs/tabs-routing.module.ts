@@ -58,6 +58,16 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'idbanque',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../idbanque/idbanque.module').then(m => m.idbanquePageModule)
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'
