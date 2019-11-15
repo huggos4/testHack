@@ -7,6 +7,9 @@ import * as HighCharts from 'highcharts';
   styleUrls: ['analyse.page.scss']
 })
 export class analysePage {
+
+  public date: string = new Date().toString();
+
   constructor() {}
 
   ionViewWillEnter(){
@@ -19,14 +22,18 @@ export class analysePage {
       },
       series: [{
           name: 'analyse',
+          innerSize: '60%',
           data: [{
               name: 'Viande',
+              color: '#f42724',
               y: 25
           }, {
               name: 'Lait',
+              color:'#24d4f4',
               y: 25
           }, {
               name: 'Poule',
+              color: '#f4ee24',
               y: 50
           },]
       }]
@@ -40,6 +47,7 @@ export class analysePage {
       },
       series: [{
           name: 'analyse',
+          innerSize: '60%',
           data: [{
               name: 'poste 1',
               y: 25

@@ -1,23 +1,61 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Tab Two
+      Analyse
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-grid>
+      <ion-row>
+        <ion-col>
+          <div text-left>
+            Année
+          </div>
+        </ion-col>
+        <ion-col>
+          <div text-center>
+              Mois
+          </div>
+        </ion-col>
+        <ion-col text-right>
+          <div>
+              Bilan
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div text-left>
+            <ion-icon name="arrow-dropleft-circle"></ion-icon>
+          </div>
+        </ion-col>
+        <ion-col>
+          <div text-center>
+            2019
+          </div>
+        </ion-col>
+        <ion-col>
+          <div text-right>
+              <ion-icon name="arrow-dropright-circle"></ion-icon>
+          </div>
+        </ion-col>
+      </ion-row>
+  </ion-grid>
   <ion-slides pager="true" >
     <ion-slide>
       <div class="diagram">
-      <div id="container" ></div>
+        <div id="container" ></div>
       </div>
     </ion-slide>
     <ion-slide>
         <div class="diagram">
-      <div id="container2"></div>
-      </div>
+          <div id="container2"></div>
+        </div>
     </ion-slide>
   </ion-slides>
-
+  <ion-list>
+    
+  </ion-list>
 </ion-content>
