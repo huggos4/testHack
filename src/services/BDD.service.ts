@@ -113,7 +113,8 @@ export class BDDProvider {
                     await Promise.all(lProm);
 
                     await this.recupDonneesTechnique();
-
+                    await this.insertAtelier();
+                    await this.insertPoste();
                     resolve();
                 } catch (e) {
                     reject(e);
@@ -167,6 +168,8 @@ export class BDDProvider {
             });
     }
 
+    
+
     private async majBDD(versionAncien: string, versionMAJ: string) {
         console.log("detection localBDD < vBDD");
         //exemple de MAJ : Si la version précédent la MAJ de l'application est antérieure ou égale à "20180404"
@@ -198,6 +201,8 @@ export class BDDProvider {
         if (versionMAJ == "20190723") {
             await this.initBDD(true);
         }
+
+        
         
 
     }
@@ -208,6 +213,56 @@ export class BDDProvider {
             try {
                 this.db.transaction(async (tx: SQLiteObject) => {
                     await tx.executeSql(sRequete, [compte.NUM, compte.MDP, compte.CODE, compte.TYPE]);
+                    resolve();
+                });
+            } catch (e) {
+                //console.log(e)
+                reject(e);
+            }
+        });
+    }
+
+    public async getComptes() {
+        if (!this.db || this.db == null ||  this.db == undefined) {
+            await this.getBDD();
+        }
+        let sRequete = 'SELECT * from Compte';
+        let res = await this.db.executeSql(sRequete, []);
+        let listeRes: Array<any> = [];
+        let num, lib, codeBanque, type: string;
+        for (var i = 0; i < res.rows.length; i++) {
+            listeRes.push(res.rows.item(i));
+            lib = listeRes[i].libCompte;
+            num = listeRes[i].login;
+            codeBanque = listeRes[i].codeBanque;
+            type = listeRes[i].typeCompte;
+            
+        }
+        console.log(listeRes);
+        return listeRes;
+    }
+
+    public async insertAtelier(atelier:any) {
+        let sRequete = "INSERT INTO Atelier(libAtelier,codeAtelier)VALUES (?,?)";
+        await new Promise((resolve, reject) => {
+            try {
+                this.db.transaction(async (tx: SQLiteObject) => {
+                    await tx.executeSql(sRequete, [atelier.libAtelier, atelier.codeAtelier]);
+                    resolve();
+                });
+            } catch (e) {
+                //console.log(e)
+                reject(e);
+            }
+        });
+    }
+
+    public async insertPoste() {
+        let sRequete = "INSERT INTO Poste(libPoste,codePoste)VALUES ('Achat Nourriture', 'ANOU'),('Achats divers','ADIV')";
+        await new Promise((resolve, reject) => {
+            try {
+                this.db.transaction(async (tx: SQLiteObject) => {
+                    await tx.executeSql(sRequete);
                     resolve();
                 });
             } catch (e) {

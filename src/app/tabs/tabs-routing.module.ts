@@ -78,6 +78,46 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'operations',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../operations/operations.module').then(m => m.OperationsPageModule)
+          }
+        ]
+      },
+      {
+        path: 'addtechnique',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../addtechnique/addtechnique.module').then(m => m.addTechniquePageModule)
+          }
+        ]
+      },
+      {
+        path: 'idtechnique',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../idtechnique/idtechnique.module').then(m => m.idtechniquePageModule)
+          }
+        ]
+      },
+      {
+        path: 'addatelier',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../addAtelier/addAtelier.module').then(m => m.addAtelierPageModule)
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: 'tabs/auth',
         pathMatch: 'full'

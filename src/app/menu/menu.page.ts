@@ -12,4 +12,12 @@ export class MenuPage {
   redirectAddBanque(){
     this.nav.navigateRoot("tabs/addbanque");
   }
+
+  redirectAddTechnique(){
+    this.nav.navigateRoot("tabs/addtechnique");
+  }
+
+  redirectAddAtelier(){
+    this.nav.navigateRoot("tabs/addatelier");
+  }
 }
