@@ -1,7 +1,6 @@
 ﻿import { Injectable,isDevMode } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
-
-
+import { insertDT } from '../assets/bdd/donneesTech';
 
 @Injectable()
 export class BDDProvider {
@@ -150,8 +149,22 @@ export class BDDProvider {
         }    
     }
 
+
     private async recupDonneesTechnique(){
-            
+        let dbTMP = await this.getBDD();
+            dbTMP.transaction(async (tx: SQLiteObject) => {
+                try {
+                    let lProm: Array<Promise<any>> = [];
+                    insertDT.forEach((script: string)=>{
+                        lProm.push(tx.executeSql(script, []));
+                    });
+                    //on attend la fin de l'execution de tous les ordres sql
+                    await Promise.all(lProm);
+                } catch (e) {
+                    console.log(e);
+                    throw e;
+                }
+            });
     }
 
     private async majBDD(versionAncien: string, versionMAJ: string) {
