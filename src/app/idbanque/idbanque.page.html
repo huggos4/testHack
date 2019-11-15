@@ -7,22 +7,25 @@
 </ion-header>
 
 <ion-content>
-    <ion-grid>
-        <ion-row (click)="openBanque('CA')">
-          <ion-col size="4">
-            <img src="assets\1200px-Crédit_Agricole.svg.png">
-          </ion-col>
-          <ion-col size="4" offset="1">
-             <ion-label #label><div id="label">Crédit agricole</div></ion-label>
-            </ion-col>
-        </ion-row>
-        <ion-row (click)="openBanque('BP')">
-          <ion-col size="4">
-              <img src="assets\Banquepopulaire_logo.svg">
-          </ion-col>
-          <ion-col size="4" offset="1">
-              <ion-label><div id="label">Banque populaire</div></ion-label>
-             </ion-col>
-        </ion-row>
-    </ion-grid>
+    <ion-list>
+        <div>
+            <ion-item>
+                <ion-label fixed>Numéro de compte</ion-label>
+                <ion-input  type="text" autocomplete="off" ></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label fixed>Mot de passe</ion-label>
+                <ion-input type="password" inputmode="numeric" ></ion-input>
+            </ion-item>
+
+            <ion-item >
+                <div id="ajouter">
+                    <ion-button>Ajouter</ion-button>
+                </div>
+            </ion-item>
+                    
+            
+        </div>            
+    </ion-list>
 </ion-content>
