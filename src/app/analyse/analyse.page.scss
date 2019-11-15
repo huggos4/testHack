@@ -8,3 +8,35 @@
  ion-slides {
      height : 100%;
  }
+
+
+ion-grid {
+    font-weight: bold;;
+    padding-top: 10px;
+    ion-col {
+        min-height : 20px;
+        padding-top: 0;
+    }
+}
+
+.selected {
+    background-color : #3880ff;
+    color: white;
+    border-radius: 2px;;
+}
+
+.date div:not(.selected) {
+    background-color: lightgray;
+}
+
+.date div {
+    padding-top : 2px;
+    padding-bottom : 2px;
+}
+
+.bg, .bd{
+    font-size: 1.5rem;
+}
+.bm ion-label{
+    vertical-align: sub;
+}

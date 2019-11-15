@@ -8,36 +8,37 @@
 
 <ion-content>
   <ion-grid>
-      <ion-row>
-        <ion-col>
-          <div text-left>
+      <ion-row class="date">
+        <ion-col class="hg" (click)="clickAnnee()">
+          <div text-center [class]="(boAnnee)? 'selected' : ''">
             Année
           </div>
         </ion-col>
-        <ion-col>
-          <div text-center>
+        <ion-col (click)="clickMois()">
+          <div text-center [class]="(boMois)? 'selected' : ''">
               Mois
-          </div>
+          </div> 
         </ion-col>
-        <ion-col text-right>
-          <div>
+        <ion-col class="hd" (click)="clickBilan()">
+          <div text-center [class]="(boBilan)? 'selected' : ''">
               Bilan
           </div>
         </ion-col>
       </ion-row>
+      <br/>
       <ion-row>
-        <ion-col>
-          <div text-left>
+        <ion-col class="bg" (click)="less()">
+          <div text-center>
             <ion-icon name="arrow-dropleft-circle"></ion-icon>
           </div>
         </ion-col>
         <ion-col>
-          <div text-center>
-            2019
+          <div text-center class="bm">
+            <ion-label>{{sdate}}</ion-label>
           </div>
         </ion-col>
-        <ion-col>
-          <div text-right>
+        <ion-col class="bd">
+          <div text-center (click)="add()">
               <ion-icon name="arrow-dropright-circle"></ion-icon>
           </div>
         </ion-col>
@@ -56,6 +57,6 @@
     </ion-slide>
   </ion-slides>
   <ion-list>
-    
+
   </ion-list>
 </ion-content>
