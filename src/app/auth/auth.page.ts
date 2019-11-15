@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, MenuController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
+
 
 @Component({
   templateUrl: 'auth.page.html',
@@ -7,8 +8,7 @@ import { NavController, MenuController } from '@ionic/angular';
 })
 export class authPage {
 
-  constructor(public nav: NavController, public menu: MenuController) {
-    this.menu.close();
+  constructor(public nav: NavController) {
   } 
   
 
