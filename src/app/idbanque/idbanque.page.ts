@@ -11,6 +11,10 @@ export class idbanquePage {
 
     console.log("test");
   }
+
+  addCompteEnBanque(){
+    
+  }
   
 
 }
