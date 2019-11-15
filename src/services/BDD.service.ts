@@ -3,6 +3,8 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { insertDT } from '../assets/bdd/donneesTech';
 import { insertBQ } from '../assets/bdd/donneesBanque';
 import { insertPO } from '../assets/bdd/donneesPoste';
+import { insertAT } from '../assets/bdd/donneesAtelier';
+import { insertAF } from '../assets/bdd/donneesAffectation';
 
 @Injectable()
 export class BDDProvider {
@@ -117,7 +119,8 @@ export class BDDProvider {
                     await this.recupDonneesBanque();
                     await this.recupDonneesTechnique();
                     await this.recupDonneesPoste();
-                    //await this.recupDonneesAtelier();
+                    await this.recupDonneesAtelier();
+                    await this.recupDonneesAffectation();
 
                     resolve();
                 } catch (e) {
@@ -197,6 +200,42 @@ export class BDDProvider {
                     let lProm: Array<Promise<any>> = [];
                     console.log(insertPO);
                     insertPO.forEach((script: string)=>{
+                        lProm.push(tx.executeSql(script, []));
+                    });
+                    //on attend la fin de l'execution de tous les ordres sql
+                    await Promise.all(lProm);
+                } catch (e) {
+                    console.log(e);
+                    throw e;
+                }
+            }); 
+    }
+
+    private async recupDonneesAtelier(){
+        let dbTMP = await this.getBDD();
+            dbTMP.transaction(async (tx: SQLiteObject) => {
+                try { 
+                    let lProm: Array<Promise<any>> = [];
+                    console.log(insertAT);
+                    insertAT.forEach((script: string)=>{
+                        lProm.push(tx.executeSql(script, []));
+                    });
+                    //on attend la fin de l'execution de tous les ordres sql
+                    await Promise.all(lProm);
+                } catch (e) {
+                    console.log(e);
+                    throw e;
+                }
+            }); 
+    }
+
+    private async recupDonneesAffectation(){
+        let dbTMP = await this.getBDD();
+            dbTMP.transaction(async (tx: SQLiteObject) => {
+                try { 
+                    let lProm: Array<Promise<any>> = [];
+                    console.log(insertAF);
+                    insertAF.forEach((script: string)=>{
                         lProm.push(tx.executeSql(script, []));
                     });
                     //on attend la fin de l'execution de tous les ordres sql
@@ -314,6 +353,27 @@ export class BDDProvider {
             await this.getBDD();
         }
         let sRequete = 'SELECT idTransaction, montantTransaction, libTransaction, dateTransaction, libPoste, libAtelier from Transac, Affectation, Atelier, Poste WHERE Transac.idTransac = Affectation.idTransac AND Poste.idPoste = Affectation.idPoste AND Atelier.idAtelier = Affectation.idAtelier';
+        let res = await this.db.executeSql(sRequete, []);
+        let listeRes: Array<any> = [];
+        let montant, libelleTransac, date, libellePoste, libelleAtelier: string;
+        for (var i = 0; i < res.rows.length; i++) {
+            listeRes.push(res.rows.item(i));
+            montant = listeRes[i].montantTransaction;
+            libelleTransac = listeRes[i].montantTransaction;
+            date = listeRes[i].dateTransaction;
+            libellePoste = listeRes[i].libellePoste;
+            libelleAtelier = listeRes[i].libelleAtelier;
+            
+        }
+        console.log(listeRes);
+        return listeRes;
+    }
+
+    public async getAnalysesAtelier() {
+        if (!this.db || this.db == null ||  this.db == undefined) {
+            await this.getBDD();
+        }
+        let sRequete = 'SELECT ';
         let res = await this.db.executeSql(sRequete, []);
         let listeRes: Array<any> = [];
         let montant, libelleTransac, date, libellePoste, libelleAtelier: string;

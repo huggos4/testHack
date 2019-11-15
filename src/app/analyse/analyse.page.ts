@@ -26,7 +26,7 @@ export class analysePage {
           type: 'pie'
       },
       title:{
-        text: 'Ateliers'
+        text: 'Total'
       },
       series: [{
           name: 'analyse',
@@ -34,16 +34,24 @@ export class analysePage {
           data: [{
               name: 'Viande',
               color: '#f42724',
-              y: 25
+              y: 700
           }, {
               name: 'Lait',
               color:'#24d4f4',
-              y: 25
+              y: 1000
           }, {
               name: 'Poule',
               color: '#f4ee24',
-              y: 50
-          },]
+              y: 4222
+          },{
+            name: 'test',
+            color:'#24d4f4',
+            y: 420
+        },{
+          name: 'test2',
+          color:'#24d4f4',
+          y: -3007.25
+      },]
       }]
     });
     let myChart2 = HighCharts.chart('container2', {
