@@ -24,7 +24,7 @@ export class analysePage {
     let myChart = HighCharts.chart('container', {
       chart: {
           type: 'pie'
-      },
+      }, 
       title:{
         text: 'Total'
       },

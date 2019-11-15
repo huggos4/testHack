@@ -20,4 +20,8 @@ export class MenuPage {
   redirectAddAtelier(){
     this.nav.navigateRoot("tabs/addatelier");
   }
+
+  redirectOperations(){
+    this.nav.navigateRoot("tabs/operations");
+  }
 }

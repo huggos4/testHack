@@ -5,9 +5,12 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-   <ion-list>
-    
-   </ion-list>
-</ion-content>
+      <ion-grid>
+
+        <ion-row item *ngFor="let operation of listeOperations;">
+          <ion-col size="4">{{operation.dateTransaction}} <img style="max-width: 50px;" [src]="(operation.idCompte==1)? 'assets/1200px-Crédit_Agricole.svg.png' : '../assets/Banquepopulaire_logo.svg'"></ion-col> <ion-col size="5">{{operation.libTransaction}} ...</ion-col> <ion-col size="3">{{operation.montantTransaction}} €</ion-col>
+        </ion-row>
+      </ion-grid>
+      
+ </ion-content>

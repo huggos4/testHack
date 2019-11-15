@@ -20,8 +20,9 @@ export class comptePage {
 
   }
 
-   redirectOperations(id:number){
-      console.log("redirectOperations")
+   redirectOperations(id:any){
+      console.log(id);
+      sessionStorage.setItem("idCompte", id);
       this.nav.navigateRoot("tabs/operations");
   }
 

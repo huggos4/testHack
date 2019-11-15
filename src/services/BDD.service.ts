@@ -95,9 +95,9 @@ export class BDDProvider {
                      
                     lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Poste(idPoste integer PRIMARY KEY AUTOINCREMENT,  libPoste text,  codePoste text, couleurPoste text)', []));
 
-                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Atelier(idAtelier integer PRIMARY KEY AUTOINCREMENT,  libAtelier text,  codeAtelier text, couleurAtelier)', []));
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Atelier(idAtelier integer PRIMARY KEY AUTOINCREMENT,  libAtelier text,  codeAtelier text, couleurAtelier text)', []));
 
-                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Affectation(  idAtelier integer,  idPoste integer,  idTransaction integer, pourcentageAffectation)', []));
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Affectation(  idAtelier integer,  idPoste integer,  idTransaction integer, pourcentageAffectation numeric)', []));
 
                     lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS DonneesTechniques(  idDonnees integer PRIMARY KEY AUTOINCREMENT,  dateDonnees text,  Poids numeric,  Nuchep text,  Nubovi text,  Sexe text,  CodeRace text,  CauseSortie text,  idTransaction integer)', []));
 
@@ -348,12 +348,27 @@ export class BDDProvider {
             }
         });
     }
-    public async getOperations() {
+      public async getOperations(idCompte?:any) {
         if (!this.db || this.db == null ||  this.db == undefined) {
             await this.getBDD();
         }
-        let sRequete = 'SELECT idTransaction, montantTransaction, libTransaction, dateTransaction, libPoste, libAtelier from Transac, Affectation, Atelier, Poste WHERE Transac.idTransac = Affectation.idTransac AND Poste.idPoste = Affectation.idPoste AND Atelier.idAtelier = Affectation.idAtelier';
-        let res = await this.db.executeSql(sRequete, []);
+        let sRequete;
+        if (!idCompte){
+             sRequete ='SELECT idTransaction, montantTransaction, SUBSTR(libTransaction, 1, 50) as libTransaction, dateTransaction, idCompte, libAtelier, libPoste from Transac, Affectation, Atelier, Poste WHERE Transac.idTransac = Affectation.idTransac AND Poste.idPoste = Affectation.idPoste AND Atelier.idAtelier = Affectation.idAtelier';
+        }
+        else {
+             sRequete = 'SELECT idTransaction, montantTransaction, SUBSTR(libTransaction, 1, 50) as libTransaction, dateTransaction, idCompte, libAtelier, libPoste from Transac WHERE idCompte = ? AND Transac, Affectation, Atelier, Poste WHERE Transac.idTransac = Affectation.idTransac AND Poste.idPoste = Affectation.idPoste AND Atelier.idAtelier = Affectation.idAtelier';
+        }
+        console.log(idCompte);
+        console.log(sRequete);
+        let res;
+        if (!idCompte){
+            res = await this.db.executeSql(sRequete);
+        }
+        else {
+            res = await this.db.executeSql(sRequete, [idCompte]);
+        }
+       
         let listeRes: Array<any> = [];
         let montant, libelleTransac, date, libellePoste, libelleAtelier: string;
         for (var i = 0; i < res.rows.length; i++) {
@@ -367,6 +382,7 @@ export class BDDProvider {
         }
         console.log(listeRes);
         return listeRes;
+        
     }
 
     public async getAnalysesAtelier() {

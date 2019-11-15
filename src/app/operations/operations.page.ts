@@ -8,6 +8,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['operations.page.scss']
 })
 export class operationsPage {
+  public listeOperations: Array<any> = [];
   constructor(public bdd: BDDProvider) {
     
     console.log("test");
@@ -15,7 +16,8 @@ export class operationsPage {
   }
 
   async ionViewWillEnter(){
-
+      this.listeOperations = await this.bdd.getOperations(sessionStorage.getItem("idCompte"));
+      sessionStorage.clear();
   }
 
 
