@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   templateUrl: 'addBanque.page.html',
@@ -6,12 +7,13 @@ import { Component } from '@angular/core';
 })
 export class addBanquePage {
 
-  constructor() {
+  constructor(public nav: NavController) {
 
     console.log("test");
   }
   openBanque(code:string){
     sessionStorage.setItem("Code", code);
+    this.nav.navigateForward("/idbanque");
     
   }
 
