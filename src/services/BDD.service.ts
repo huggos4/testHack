@@ -89,11 +89,11 @@ export class BDDProvider {
 
                     lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Transac(idTransaction integer PRIMARY KEY AUTOINCREMENT,  montantTransaction real,  libTransaction text,  dateTransaction text,  idCompte integer)', []));
                      
-                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Poste(idPoste integer PRIMARY KEY AUTOINCREMENT,  libPoste text,  codePoste text)', []));
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Poste(idPoste integer PRIMARY KEY AUTOINCREMENT,  libPoste text,  codePoste text, couleurPoste text)', []));
 
-                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Atelier(idAtelier integer PRIMARY KEY AUTOINCREMENT,  libAtelier text,  codeAtelier text)', []));
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Atelier(idAtelier integer PRIMARY KEY AUTOINCREMENT,  libAtelier text,  codeAtelier text, couleurAtelier)', []));
 
-                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Affectation(  idAtelier integer,  idPoste integer,  idTransaction integer)', []));
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Affectation(  idAtelier integer,  idPoste integer,  idTransaction integer, pourcentageAffectation)', []));
 
                     lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS DonneesTechniques(  idDonnees integer PRIMARY KEY AUTOINCREMENT,  dateDonnees text,  Poids numeric,  Nuchep text,  Nubovi text,  Sexe text,  CodeRace text,  CauseSortie text,  idTransaction integer)', []));
 
@@ -113,8 +113,8 @@ export class BDDProvider {
                     await Promise.all(lProm);
 
                     await this.recupDonneesTechnique();
-                    await this.insertAtelier();
-                    await this.insertPoste();
+                   // await this.insertAtelier();
+                  //  await this.insertPoste();
                     resolve();
                 } catch (e) {
                     reject(e);
@@ -270,5 +270,25 @@ export class BDDProvider {
                 reject(e);
             }
         });
+    }
+    public async getOperations() {
+        if (!this.db || this.db == null ||  this.db == undefined) {
+            await this.getBDD();
+        }
+        let sRequete = 'SELECT idTransaction, montantTransaction, libTransaction, dateTransaction, libPoste, libAtelier from Transac, Affectation, Atelier, Poste WHERE Transac.idTransac = Affectation.idTransac AND Poste.idPoste = Affectation.idPoste AND Atelier.idAtelier = Affectation.idAtelier';
+        let res = await this.db.executeSql(sRequete, []);
+        let listeRes: Array<any> = [];
+        let montant, libelleTransac, date, libellePoste, libelleAtelier: string;
+        for (var i = 0; i < res.rows.length; i++) {
+            listeRes.push(res.rows.item(i));
+            montant = listeRes[i].montantTransaction;
+            libelleTransac = listeRes[i].montantTransaction;
+            date = listeRes[i].dateTransaction;
+            libellePoste = listeRes[i].libellePoste;
+            libelleAtelier = listeRes[i].libelleAtelier;
+            
+        }
+        console.log(listeRes);
+        return listeRes;
     }
 } 
