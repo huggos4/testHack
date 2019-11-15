@@ -3,15 +3,15 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthPage } from './auth.page';
+import { addBanquePage } from './addBanque.page';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    RouterModule.forChild([{ path: '', component: AuthPage }])
+    RouterModule.forChild([{ path: '', component: addBanquePage }])
   ],
-  declarations: [AuthPage]
+  declarations: [addBanquePage]
 })
-export class AuthPageModule {}
+export class addBanquePageModule {}
