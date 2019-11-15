@@ -1,6 +1,7 @@
 ﻿import { Injectable,isDevMode } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { insertDT } from '../assets/bdd/donneesTech';
+import { insertBQ } from '../assets/bdd/donneesBanque';
 
 @Injectable()
 export class BDDProvider {
@@ -100,7 +101,7 @@ export class BDDProvider {
                     lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Compte(idCompte integer PRIMARY KEY AUTOINCREMENT,  login text,  mdp text,  libCompte text,  codeBanque text,  typeCompte text)', []));
 
                     // lProm.push(tx.executeSql('ALTER TABLE Transaction ADD FOREIGN KEY(idCompte) REFERENCES Compte (idCompte)', []));
-
+ 
                     // lProm.push(tx.executeSql('ALTER TABLE Affectation ADD FOREIGN KEY(idAtelier) REFERENCES Atelier (idAtelier)', []));
 
                     // lProm.push(tx.executeSql('ALTER TABLE Affectation ADD FOREIGN KEY(idPoste) REFERENCES Poste (idPoste)', []));
@@ -112,9 +113,15 @@ export class BDDProvider {
                     //on attend la fin de l'execution de tous les ordres sql
                     await Promise.all(lProm);
 
+                    await this.recupDonneesBanque();
                     await this.recupDonneesTechnique();
+<<<<<<< Updated upstream
                    // await this.insertAtelier();
                   //  await this.insertPoste();
+=======
+                    //await this.insertAtelier();
+                    await this.insertPoste();
+>>>>>>> Stashed changes
                     resolve();
                 } catch (e) {
                     reject(e);
@@ -168,6 +175,23 @@ export class BDDProvider {
             });
     }
 
+    private async recupDonneesBanque(){
+        let dbTMP = await this.getBDD();
+            dbTMP.transaction(async (tx: SQLiteObject) => {
+                try { 
+                    let lProm: Array<Promise<any>> = [];
+                    console.log(insertBQ);
+                    insertBQ.forEach((script: string)=>{
+                        lProm.push(tx.executeSql(script, []));
+                    });
+                    //on attend la fin de l'execution de tous les ordres sql
+                    await Promise.all(lProm);
+                } catch (e) {
+                    console.log(e);
+                    throw e;
+                }
+            });
+    }
     
 
     private async majBDD(versionAncien: string, versionMAJ: string) {
