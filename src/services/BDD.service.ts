@@ -398,15 +398,38 @@ export class BDDProvider {
         
     }
 
-    public async getAnalysesPoste() {
+    public async getAnalysesPoste(mois: string) {
         if (!this.db || this.db == null ||  this.db == undefined) {
             await this.getBDD();
         }
-        let sRequete = 'SELECT ';
-        let res = await this.db.executeSql(sRequete, []);
+        if(mois.length == 1){
+            mois = '0'+ mois;
+        }
+        console.log(mois);
+        let sRequete1 = 'SELECT  ROUND(SUM(t.montantTransaction),2) somme, p.idPoste, p.libPoste ' + 
+        ' FROM Transac t LEFT JOIN Affectation a on a.idTransaction = t.idTransaction '+
+        ' LEFT JOIN Poste p ON p.idPoste = a.idPoste '+
+        ' WHERE t.montantTransaction > 0 AND substr(t.dateTransaction,4,2) = ? ' +
+        ' GROUP BY p.idPoste,  p.libPoste ' +
+        ' ORDER BY somme desc';
+        let res1 = await this.db.executeSql(sRequete1, [mois]);
         let listeRes: Array<any> = [];
-        for (var i = 0; i < res.rows.length; i++) {
-            listeRes.push(res.rows.item(i));
+        let item = null;
+        for (var i = 0; i < res1.rows.length; i++) {
+            item = res1.rows.item(i);
+            listeRes.push({name:item.somme + '€ ' + item.libPoste, color: 'green', y:item.somme});
+        } 
+
+        let sRequete2 = 'SELECT  ROUND(SUM(t.montantTransaction),2) somme, p.idPoste, p.libPoste ' + 
+        ' FROM Transac t LEFT JOIN Affectation a on a.idTransaction = t.idTransaction '+
+        ' LEFT JOIN Poste p ON p.idPoste = a.idPoste '+
+        ' WHERE t.montantTransaction < 0 AND substr(t.dateTransaction,4,2) = ? ' +
+        ' GROUP BY p.idPoste,  p.libPoste ' +
+        ' ORDER BY somme desc';
+        let res2 = await this.db.executeSql(sRequete2, [mois]);
+        for (var i = 0; i < res2.rows.length; i++) {
+            item = res2.rows.item(i);
+            listeRes.push({name:item.somme + '€ ' + item.libPoste, color: 'red', y:Math.abs(item.somme)});
         }
         console.log(listeRes);
         return listeRes;
@@ -495,4 +518,113 @@ export class BDDProvider {
             }
         });
     }
+
+    
+    public async getAnalysesPosteAnnee() {
+        if (!this.db || this.db == null ||  this.db == undefined) {
+            await this.getBDD();
+        }
+        let sRequete1 = 'SELECT ROUND(SUM(t.montantTransaction),2) somme, p.idPoste, p.libPoste ' + 
+        ' FROM Transac t LEFT JOIN Affectation a on a.idTransaction = t.idTransaction '+
+        ' LEFT JOIN Poste p ON p.idPoste = a.idPoste '+
+        ' WHERE t.montantTransaction > 0 ' +
+        ' GROUP BY p.idPoste,  p.libPoste ' +
+        ' ORDER BY somme desc';
+        let res1 = await this.db.executeSql(sRequete1, []);
+        let listeRes: Array<any> = [];
+        let item = null;
+        for (var i = 0; i < res1.rows.length; i++) {
+            item = res1.rows.item(i);
+            listeRes.push({name:item.somme + '€ ' + item.libPoste, color: 'green', y:item.somme});
+        } 
+
+        let sRequete2 = 'SELECT  ROUND(SUM(t.montantTransaction),2) somme, p.idPoste, p.libPoste ' + 
+        ' FROM Transac t LEFT JOIN Affectation a on a.idTransaction = t.idTransaction '+
+        ' LEFT JOIN Poste p ON p.idPoste = a.idPoste '+
+        ' WHERE t.montantTransaction < 0 ' +
+        ' GROUP BY p.idPoste,  p.libPoste ' +
+        ' ORDER BY somme desc';
+        let res2 = await this.db.executeSql(sRequete2, []);
+        for (var i = 0; i < res2.rows.length; i++) {
+            item = res2.rows.item(i);
+            listeRes.push({name:item.somme + '€ ' + item.libPoste, color: 'red', y:Math.abs(item.somme)});
+        }
+        console.log(listeRes);
+        return listeRes;
+    }
+
+    
+    public async getAnalysesAtelierAnnee(idAtelier: number) {
+        if (!this.db || this.db == null ||  this.db == undefined) {
+            await this.getBDD();
+        }
+        let sRequete1 = 'SELECT  ROUND(SUM(t.montantTransaction),2) somme, p.idAtelier, pp.libPoste ' + 
+        ' FROM Transac t LEFT JOIN Affectation a on a.idTransaction = t.idTransaction '+
+        ' LEFT JOIN Atelier p ON p.idAtelier = a.idAtelier '+
+        ' LEFT JOIN Poste pp ON a.idPoste = pp.idPoste '+
+        ' WHERE t.montantTransaction > 0 AND p.idAtelier = ? ' +
+        ' GROUP BY p.idAtelier,  pp.libPoste ' +
+        ' ORDER BY somme desc';
+        let res1 = await this.db.executeSql(sRequete1, [idAtelier]);
+        let listeRes: Array<any> = [];
+        let item = null;
+        for (var i = 0; i < res1.rows.length; i++) {
+            item = res1.rows.item(i);
+            listeRes.push({name:item.somme + '€ ' + item.libPoste, color: 'green', y:item.somme});
+        } 
+
+        let sRequete2 = 'SELECT  ROUND(SUM(t.montantTransaction),2) somme, p.idAtelier, pp.libPoste ' + 
+        ' FROM Transac t LEFT JOIN Affectation a on a.idTransaction = t.idTransaction '+
+        ' LEFT JOIN Atelier p ON p.idAtelier = a.idAtelier '+
+        ' LEFT JOIN Poste pp ON a.idPoste = pp.idPoste '+
+        ' WHERE t.montantTransaction < 0 AND p.idAtelier = ? ' +
+        ' GROUP BY p.idAtelier,  pp.libPoste ' +
+        ' ORDER BY somme desc';
+        let res2 = await this.db.executeSql(sRequete2, [idAtelier]);
+        for (var i = 0; i < res2.rows.length; i++) {
+            item = res2.rows.item(i);
+            listeRes.push({name:item.somme + '€ ' + item.libPoste, color: 'red', y:Math.abs(item.somme)});
+        } 
+        console.log(listeRes);
+        return listeRes;
+    }
+    
+    public async getAnalysesAtelier(mois: string, idAtelier: number) {
+        if (!this.db || this.db == null ||  this.db == undefined) {
+            await this.getBDD();
+        }
+        if(mois.length == 1){
+            mois = '0'+ mois;
+        }
+        let sRequete1 = 'SELECT  ROUND(SUM(t.montantTransaction),2) somme, p.idAtelier, pp.libPoste ' + 
+        ' FROM Transac t LEFT JOIN Affectation a on a.idTransaction = t.idTransaction '+
+        ' LEFT JOIN Atelier p ON p.idAtelier = a.idAtelier '+
+        ' LEFT JOIN Poste pp ON a.idPoste = pp.idPoste '+
+        ' WHERE t.montantTransaction > 0 AND substr(t.dateTransaction,4,2) = ? AND p.idAtelier = ? ' +
+        ' GROUP BY p.idAtelier,  pp.libPoste ' +
+        ' ORDER BY somme desc';
+        let res1 = await this.db.executeSql(sRequete1, [mois, idAtelier]);
+        let listeRes: Array<any> = [];
+        let item = null;
+        for (var i = 0; i < res1.rows.length; i++) {
+            item = res1.rows.item(i);
+            listeRes.push({name:item.somme + '€ ' + item.libPoste, color: 'green', y:item.somme});
+        } 
+
+        let sRequete2 = 'SELECT  ROUND(SUM(t.montantTransaction),2) somme, p.idAtelier, pp.libPoste ' + 
+        ' FROM Transac t LEFT JOIN Affectation a on a.idTransaction = t.idTransaction '+
+        ' LEFT JOIN Atelier p ON p.idAtelier = a.idAtelier '+
+        ' LEFT JOIN Poste pp ON a.idPoste = pp.idPoste '+
+        ' WHERE t.montantTransaction < 0 AND substr(t.dateTransaction,4,2) = ?  AND p.idAtelier = ? ' +
+        ' GROUP BY p.idAtelier,  pp.libPoste ' +
+        ' ORDER BY somme desc';
+        let res2 = await this.db.executeSql(sRequete2, [mois, idAtelier]);
+        for (var i = 0; i < res2.rows.length; i++) {
+            item = res2.rows.item(i);
+            listeRes.push({name:item.somme + '€ ' + item.libPoste, color: 'red', y:Math.abs(item.somme)});
+        } 
+        console.log(listeRes);
+        return listeRes;
+    }
+
 } 

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import * as HighCharts from 'highcharts';
+import { BDDProvider } from 'src/services/BDD.service';
 
 @Component({
   selector: 'app-analyse',
@@ -14,89 +15,103 @@ export class analysePage {
   public boBilan: boolean = false;
   public boMois: boolean = true;
 
-
-  constructor() {
-    this.date = new Date();
-    this.getDate(this.date.getMonth().toString());
+  constructor(public bdd : BDDProvider) {
   }
 
-  ionViewWillEnter(){
-    let myChart = HighCharts.chart('container', {
+  async ionViewWillEnter(){
+    this.date = new Date();
+    this.getDate(this.date.getMonth().toString());
+    try{
+      let list = await this.bdd.getAnalysesPoste(this.date.getMonth().toString());
+      await this.setChart('container', list, 'Exploitation' );
+      list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 3);
+      this.setChart('container2', list, 'Atelier Viande' );
+      list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 2);
+      this.setChart('container3', list, 'Atelier Lait' );
+      list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 1);
+      this.setChart('container4', list, 'Non affectable' );
+
+    }catch(e){
+      console.log(e);
+    }
+  }
+
+  public setChart(container: string, list: any, titre: string){
+    let myChart = HighCharts.chart(container, {
       chart: {
           type: 'pie'
       }, 
+      plotOptions: {
+          pie: {
+              allowPointSelect: true,
+              cursor: 'pointer',
+              dataLabels: {
+                  enabled: false
+              },
+              showInLegend: true
+          }
+      },
+      credits: {
+          enabled: false
+      },
       title:{
-        text: 'Total'
+        text: titre
       },
       series: [{
           name: 'analyse',
           innerSize: '60%',
-          data: [{
-              name: 'Viande',
-              color: '#f42724',
-              y: 700
-          }, {
-              name: 'Lait',
-              color:'#24d4f4',
-              y: 1000
-          }, {
-              name: 'Poule',
-              color: '#f4ee24',
-              y: 4222
-          },{
-            name: 'test',
-            color:'#24d4f4',
-            y: 420
-        },{
-          name: 'test2',
-          color:'#24d4f4',
-          y: -3007.25
-      },]
+          data: list,
+          type: undefined
       }]
     });
-    let myChart2 = HighCharts.chart('container2', {
-      chart: {
-          type: 'pie'
-      },
-      title:{
-        text: 'Postes'
-      },
-      series: [{
-          name: 'analyse',
-          innerSize: '60%',
-          data: [{
-              name: 'poste 1',
-              y: 25
-          }, {
-              name: 'poste 2',
-              y: 25
-          }, {
-              name: 'poste 3',
-              y: 25
-          },{
-            name: 'poste 4',
-            y: 25
-        },]
-      }]
-    });
+    
   }
 
-  clickAnnee(){
+  async clickAnnee(){
     this.boAnnee = true;
     this.boBilan = false;
     this.boMois = false;
 
     this.date = new Date();
     this.sdate = this.date.getFullYear().toString();
+    try{
+      let list = await this.bdd.getAnalysesPosteAnnee();
+      this.setChart('container', list, 'Exploitation');
+      list = await this.bdd.getAnalysesAtelierAnnee(3);
+      this.setChart('container2', list, 'Atelier Viande' );
+      list = await this.bdd.getAnalysesAtelierAnnee(2);
+      this.setChart('container3', list, 'Atelier Lait' );
+      list = await this.bdd.getAnalysesAtelierAnnee(1);
+      this.setChart('container4', list, 'Non affectable' );
+      
+
+    }catch(e){
+      console.log(e);
+    }
   }
 
-  clickMois(){    
+  async clickMois(){    
     this.boAnnee = false;
     this.boBilan = false;
     this.boMois = true;
 
     this.date = new Date();
     this.getDate(this.date.getMonth().toString());
+    try{
+      let list = await this.bdd.getAnalysesPoste(this.date.getMonth().toString());
+      this.setChart('container', list, 'Exploitation');
+      list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 3);
+      this.setChart('container2', list, 'Atelier Viande' );
+      list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 2);
+      this.setChart('container3', list, 'Atelier Lait' );
+      list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 1);
+      this.setChart('container4', list, 'Non affectable' );
+
+
+
+    }catch(e){
+      console.log(e);
+    }
   }
 
   clickBilan(){
@@ -106,7 +121,7 @@ export class analysePage {
     this.sdate = localStorage.getItem("dBilan");
   }
   
-add(){
+async add(){
   let d = new Date();
   let year = d.getFullYear();
   let month = d.getMonth();
@@ -118,10 +133,23 @@ add(){
   if(this.boMois){
     this.date = new Date(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDay());
     this.getDate(this.date.getMonth().toString());
+    try{
+      let list = await this.bdd.getAnalysesPoste(this.date.getMonth().toString());
+      this.setChart('container', list, 'Exploitation');
+      list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 3);
+      this.setChart('container2', list, 'Atelier Viande' );
+      list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 2);
+      this.setChart('container3', list, 'Atelier Lait' );
+      list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 1);
+      this.setChart('container4', list, 'Non affectable' );
+
+    }catch(e){
+      console.log(e);
+    }
   }
 }  
 
-less(){
+async less(){
   if(this.boAnnee){
     this.date = new Date(this.date.getFullYear() - 1, this.date.getMonth(), this.date.getDay());
     this.sdate = this.date.getFullYear().toString();
@@ -129,6 +157,21 @@ less(){
   if(this.boMois){
     this.date = new Date(this.date.getFullYear(), this.date.getMonth() - 1, this.date.getDay());
     this.getDate(this.date.getMonth().toString());
+    try{
+      let list = await this.bdd.getAnalysesPoste(this.date.getMonth().toString());
+      this.setChart('container', list, 'Exploitation');
+      list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 3);
+      this.setChart('container2', list, 'Atelier Viande' );
+      list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 2);
+      this.setChart('container3', list, 'Atelier Lait' );
+      list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 1);
+      this.setChart('container4', list, 'Non affectable' );
+
+
+
+    }catch(e){
+      console.log(e);
+    }
   }
 }
 

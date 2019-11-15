@@ -38,7 +38,7 @@ export const insertBQ = [
 "INSERT INTO Transac (idTransaction,dateTransaction,libTransaction,montantTransaction,idCompte) VALUES ('37','08/10/2019','4843599,Cheque Emis',-254.78,2)",
 "INSERT INTO Transac (idTransaction,dateTransaction,libTransaction,montantTransaction,idCompte) VALUES ('38','16/10/2019','Virement En Votre Faveur, PAC 2019, Aec De Beau Pre',39015.74,2)",
 "INSERT INTO Transac (idTransaction,dateTransaction,libTransaction,montantTransaction,idCompte) VALUES ('39','28/10/2019','Virement Emis, Web Mpes Delaval Delaval',-516.46,2)",
-"INSERT INTO Transac (idTransaction,dateTransaction,libTransaction,montantTransaction,idCompte) VALUES ('40','28/10/2019','Msa Lorraine, Prelevmnt',-97704,2)",
+"INSERT INTO Transac (idTransaction,dateTransaction,libTransaction,montantTransaction,idCompte) VALUES ('40','28/10/2019','Msa Lorraine, Prelevmnt',-9704,2)",
 "INSERT INTO Transac (idTransaction,dateTransaction,libTransaction,montantTransaction,idCompte) VALUES ('41','28/10/2019','Cheque Emis',-845.33,2)",
 "INSERT INTO Transac (idTransaction,dateTransaction,libTransaction,montantTransaction,idCompte) VALUES ('42','30/10/2019','Virement Emis, Gedimat Derrey, Web Derrey Sas Gedimat Derrey ',-85.18,2)",
 "INSERT INTO Transac (idTransaction,dateTransaction,libTransaction,montantTransaction,idCompte) VALUES ('43','31/10/2019','Remboursement De Prêt, Intérét',-7.19,2)",
