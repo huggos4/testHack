@@ -115,7 +115,7 @@ export class BDDProvider {
                     
                     //on attend la fin de l'execution de tous les ordres sql
                     await Promise.all(lProm);
-
+                    //just a test
                     await this.recupDonneesBanque();
                     await this.recupDonneesTechnique();
                     await this.recupDonneesPoste();
@@ -385,22 +385,15 @@ export class BDDProvider {
         
     }
 
-    public async getAnalysesAtelier() {
+    public async getAnalysesPoste() {
         if (!this.db || this.db == null ||  this.db == undefined) {
             await this.getBDD();
         }
         let sRequete = 'SELECT ';
         let res = await this.db.executeSql(sRequete, []);
         let listeRes: Array<any> = [];
-        let montant, libelleTransac, date, libellePoste, libelleAtelier: string;
         for (var i = 0; i < res.rows.length; i++) {
             listeRes.push(res.rows.item(i));
-            montant = listeRes[i].montantTransaction;
-            libelleTransac = listeRes[i].montantTransaction;
-            date = listeRes[i].dateTransaction;
-            libellePoste = listeRes[i].libellePoste;
-            libelleAtelier = listeRes[i].libelleAtelier;
-            
         }
         console.log(listeRes);
         return listeRes;
