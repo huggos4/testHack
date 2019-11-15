@@ -287,7 +287,7 @@ export class BDDProvider {
     }
    
     public async insertCompte(compte: any) {
-        let sRequete = "INSERT INTO Compte(login, mdp, codeBanque, typeCompte)VALUES (?,?,?,?)";
+        let sRequete = "INSERT INTO Compte(login, mdp, codeBanque, typeCompte, libCompte)VALUES (?,?,?,?,'Compte chèque')";
         await new Promise((resolve, reject) => {
             try {
                 this.db.transaction(async (tx: SQLiteObject) => {
@@ -502,7 +502,7 @@ export class BDDProvider {
 
     public async insertAffectation(idAtelier:any,idPoste:any,idOperation){
         
-        let sRequete = "INSERT INTO Affectation(idAtelier,idPoste, idTransaction)VALUES (?,?,?)";
+        let sRequete = "UPDATE Affectation SET idAtelier=?, idPoste=? WHERE idTransaction = ?";
         console.log(idAtelier);
         console.log(idPoste);
         console.log(idOperation);

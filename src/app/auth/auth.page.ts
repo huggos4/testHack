@@ -15,4 +15,8 @@ export class authPage {
   connexion(){
     this.nav.navigateRoot("tabs/compte");
   }
+
+  inscription(){
+    this.nav.navigateRoot("tabs/compte");
+  }
 }

@@ -10,7 +10,7 @@
    <ion-list *ngFor="let compte of listeComptes;">
      <ion-item (click)="redirectOperations(compte.idCompte)">
        <img id="imageBanque" [src]="(compte.codeBanque=='CA')? 'assets/1200px-Crédit_Agricole.svg.png' : '../assets/Banquepopulaire_logo.svg'">
-       <ion-label>{{compte.login}}</ion-label>
+       <ion-label>{{compte.libCompte}} {{compte.login}}</ion-label>
      </ion-item>
      
    </ion-list>
