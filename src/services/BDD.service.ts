@@ -5,6 +5,8 @@ import { insertBQ } from '../assets/bdd/donneesBanque';
 import { insertPO } from '../assets/bdd/donneesPoste';
 import { insertAT } from '../assets/bdd/donneesAtelier';
 import { insertAF } from '../assets/bdd/donneesAffectation';
+import { analysePage } from 'src/app/analyse/analyse.page';
+import { idbanquePage } from 'src/app/idbanque/idbanque.page';
 
 @Injectable()
 export class BDDProvider {
@@ -102,7 +104,7 @@ export class BDDProvider {
                     lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS DonneesTechniques(  idDonnees integer PRIMARY KEY AUTOINCREMENT,  dateDonnees text,  Poids numeric,  Nuchep text,  Nubovi text,  Sexe text,  CodeRace text,  CauseSortie text,  idTransaction integer)', []));
 
                     lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Compte(idCompte integer PRIMARY KEY AUTOINCREMENT,  login text,  mdp text,  libCompte text,  codeBanque text,  typeCompte text)', []));
-
+ 
                     // lProm.push(tx.executeSql('ALTER TABLE Transaction ADD FOREIGN KEY(idCompte) REFERENCES Compte (idCompte)', []));
  
                     // lProm.push(tx.executeSql('ALTER TABLE Affectation ADD FOREIGN KEY(idAtelier) REFERENCES Atelier (idAtelier)', []));
@@ -354,19 +356,30 @@ export class BDDProvider {
         }
         let sRequete;
         if (!idCompte){
-             sRequete ='SELECT idTransaction, montantTransaction, SUBSTR(libTransaction, 1, 50) as libTransaction, dateTransaction, idCompte, libAtelier, libPoste from Transac, Affectation, Atelier, Poste WHERE Transac.idTransac = Affectation.idTransac AND Poste.idPoste = Affectation.idPoste AND Atelier.idAtelier = Affectation.idAtelier';
+             sRequete ='SELECT Transac.idTransaction, montantTransaction, SUBSTR(libTransaction, 1, 40) as libTransaction, dateTransaction, (substr(dateTransaction,7)||substr(dateTransaction,4,2)||substr(dateTransaction,1,2)) as date, Transac.idCompte, libAtelier, libPoste from Transac, Affectation, Atelier, Poste, Compte WHERE Transac.idTransaction = Affectation.idTransaction AND Poste.idPoste = Affectation.idPoste AND Atelier.idAtelier = Affectation.idAtelier ORDER BY date DESC';
         }
         else {
-             sRequete = 'SELECT idTransaction, montantTransaction, SUBSTR(libTransaction, 1, 50) as libTransaction, dateTransaction, idCompte, libAtelier, libPoste from Transac WHERE idCompte = ? AND Transac, Affectation, Atelier, Poste WHERE Transac.idTransac = Affectation.idTransac AND Poste.idPoste = Affectation.idPoste AND Atelier.idAtelier = Affectation.idAtelier';
+             sRequete = 'SELECT Transac.idTransaction, montantTransaction, SUBSTR(libTransaction, 1, 40) as libTransaction, dateTransaction, (substr(dateTransaction,7)||substr(dateTransaction,4,2)||substr(dateTransaction,1,2)) as date, Transac.idCompte, libAtelier, libPoste from Transac , Affectation, Atelier, Poste, Compte WHERE Compte.idCompte = ? AND  Transac.idTransaction = Affectation.idTransaction AND Poste.idPoste = Affectation.idPoste AND Atelier.idAtelier = Affectation.idAtelier AND Transac.idCompte = Compte.idCompte ORDER BY date DESC';
         }
         console.log(idCompte);
         console.log(sRequete);
         let res;
         if (!idCompte){
-            res = await this.db.executeSql(sRequete);
+            try{
+                res = await this.db.executeSql(sRequete);     
+            }
+           catch(e){
+               console.log(e);
+           }
         }
         else {
-            res = await this.db.executeSql(sRequete, [idCompte]);
+            try{
+                res = await this.db.executeSql(sRequete, [idCompte]);    
+            }
+           catch(e){
+               console.log(e);
+           }
+            
         }
        
         let listeRes: Array<any> = [];
@@ -397,5 +410,89 @@ export class BDDProvider {
         }
         console.log(listeRes);
         return listeRes;
+    }
+
+    public async getOperation(idOperation:any) {
+        if (!this.db || this.db == null ||  this.db == undefined) {
+            await this.getBDD();
+        }
+        let sRequete;
+        let operation:any;
+        sRequete = 'SELECT Transac.idTransaction, montantTransaction, libTransaction, dateTransaction, (substr(dateTransaction,7)||substr(dateTransaction,4,2)||substr(dateTransaction,1,2)) as date, Transac.idCompte, Atelier.idAtelier, libAtelier, Poste.idPoste, libPoste from Transac , Affectation, Atelier, Poste, Compte WHERE Transac.idTransaction = ? AND  Transac.idTransaction = Affectation.idTransaction AND Poste.idPoste = Affectation.idPoste AND Atelier.idAtelier = Affectation.idAtelier AND Transac.idCompte = Compte.idCompte ORDER BY date DESC';
+        console.log("TEST");
+        console.log(idOperation);
+        console.log(sRequete);
+        let res;
+            try{
+                res = await this.db.executeSql(sRequete, [idOperation]);     
+            }
+           catch(e){
+               console.log(e);
+           }
+           console.log(res);
+        operation =res.rows.item(0);
+        return operation;
+        
+    }
+
+    public async getPostes() {
+        if (!this.db || this.db == null ||  this.db == undefined) {
+            await this.getBDD();
+        }
+        let sRequete;
+        let listeRes:Array<any> = [];
+        sRequete = 'SELECT * FROM Poste';
+        let res;
+            try{
+                res = await this.db.executeSql(sRequete);     
+            }
+           catch(e){
+               console.log(e);
+           }
+           for (var i = 0; i < res.rows.length; i++) {
+            listeRes.push(res.rows.item(i));
+        };
+        return listeRes;
+        
+    }
+
+    public async getAteliers() {
+        if (!this.db || this.db == null ||  this.db == undefined) {
+            await this.getBDD();
+        }
+        let sRequete;
+        let listeRes:Array<any> = [];
+        sRequete = 'SELECT * FROM Atelier';
+        let res;
+            try{
+                res = await this.db.executeSql(sRequete);     
+            }
+           catch(e){
+               console.log(e);
+           }
+           for (var i = 0; i < res.rows.length; i++) {
+            listeRes.push(res.rows.item(i));
+        };
+        return listeRes;
+        
+    }
+
+    public async insertAffectation(idAtelier:any,idPoste:any,idOperation){
+        
+        let sRequete = "INSERT INTO Affectation(idAtelier,idPoste, idTransaction)VALUES (?,?,?)";
+        console.log(idAtelier);
+        console.log(idPoste);
+        console.log(idOperation);
+        await new Promise((resolve, reject) => {
+            try {
+                this.db.transaction(async (tx: SQLiteObject) => {
+                    await tx.executeSql(sRequete, [idAtelier, idPoste, idOperation]);
+                    resolve();
+                });
+            } catch (e) {
+                //console.log(e)
+                reject(e);
+            }
+        });
     }
 } 

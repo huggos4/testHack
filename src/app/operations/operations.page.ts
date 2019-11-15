@@ -9,7 +9,7 @@ import { NavController } from '@ionic/angular';
 })
 export class operationsPage {
   public listeOperations: Array<any> = [];
-  constructor(public bdd: BDDProvider) {
+  constructor(public bdd: BDDProvider,public nav: NavController,) {
     
     console.log("test");
     
@@ -18,6 +18,13 @@ export class operationsPage {
   async ionViewWillEnter(){
       this.listeOperations = await this.bdd.getOperations(sessionStorage.getItem("idCompte"));
       sessionStorage.clear();
+  }
+
+ redirectDetailOperation(idOperation:any) {
+   console.log(idOperation);
+   sessionStorage.setItem("idOperation", idOperation);
+    this.nav.navigateRoot("tabs/detailoperation");
+
   }
 
 

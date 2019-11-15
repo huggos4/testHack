@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Opération
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div *ngIf="operation!=null">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4"> <img style="max-width: 150px;" [src]="(operation.idCompte==1)? 'assets/1200px-Crédit_Agricole.svg.png' : '../assets/Banquepopulaire_logo.svg'"></ion-col>
+        <ion-col style="margin-top:30px;font-size:50px">{{operation.dateTransaction}} </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col> <i style="font-size:22px">{{operation.libTransaction}} ... </i> </ion-col>
+        <ion-col> 
+          {{operation.montantTransaction}} € 
+        </ion-col>
+      </ion-row>
+    <ion-row>
+        <ion-col>
+          <ion-label>Poste : </ion-label>
+          <select name="poste" [(ngModel)]="elemSelecPoste">
+            <option value=""></option>
+            <option *ngFor="let poste of postes" value="{{poste.idPoste}}">{{poste.libPoste}}</option>
+
+          </select>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+          <ion-col>
+            <ion-label>Atelier : </ion-label>
+            <select name="atelier" [(ngModel)]="elemSelecAtelier" >
+              <option value=""></option>
+              <option *ngFor="let atelier of ateliers" value="{{atelier.idAtelier}}">{{atelier.libAtelier}}</option>
+                
+            </select>
+          </ion-col>
+        </ion-row>
+        <ion-button (click)="insertAffectation(elemSelecAtelier, elemSelecPoste, operation.idTransaction)">Modifier</ion-button>
+  </ion-grid>  
+      
+    </div>   
+ </ion-content>

@@ -118,6 +118,16 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'detailoperation',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../detailoperation/detailoperation.module').then(m => m.detailoperationPageModule)
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: 'tabs/auth',
         pathMatch: 'full'
