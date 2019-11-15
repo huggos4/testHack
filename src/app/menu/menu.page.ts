@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-menu',
   templateUrl: 'menu.page.html',
@@ -7,6 +7,9 @@ import { Component } from '@angular/core';
 })
 export class MenuPage {
 
-  constructor() {}
+  constructor(public nav: NavController) {}
 
+  redirectAddBanque(){
+    this.nav.navigateRoot("tabs/addbanque");
+  }
 }
