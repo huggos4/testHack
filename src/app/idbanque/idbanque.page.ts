@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { BDDProvider } from '../../services/BDD.service'
 
 @Component({
   templateUrl: 'idbanque.page.html',
@@ -7,14 +8,22 @@ import { NavController } from '@ionic/angular';
 })
 export class idbanquePage {
 
-  constructor(public nav: NavController) {
+  public banque: any = {};
+
+  constructor(public nav: NavController, public bdd: BDDProvider) {
 
     console.log("test");
   }
 
-  addCompteEnBanque(){
-    
+  async addCompteEnBanque(){
+    this.banque.CODE = sessionStorage.getItem("Code");
+    this.banque.TYPE= "B";
+    await this.bdd.insertCompte(this.banque);
+    console.log(this.banque);
   }
+
+
+
   
 
 }

@@ -88,17 +88,17 @@ export class BDDProvider {
                     
                     console.log("ok");
 
-                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Transac(idTransaction integer PRIMARY KEY,  montantTransaction real,  libTransaction text,  dateTransaction text,  idCompte integer)', []));
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Transac(idTransaction integer PRIMARY KEY AUTOINCREMENT,  montantTransaction real,  libTransaction text,  dateTransaction text,  idCompte integer)', []));
                      
-                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Poste(idPoste integer PRIMARY KEY,  libPoste text,  codePoste text)', []));
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Poste(idPoste integer PRIMARY KEY AUTOINCREMENT,  libPoste text,  codePoste text)', []));
 
-                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Atelier(idAtelier integer PRIMARY KEY,  libAtelier text,  codeAtelier text)', []));
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Atelier(idAtelier integer PRIMARY KEY AUTOINCREMENT,  libAtelier text,  codeAtelier text)', []));
 
                     lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Affectation(  idAtelier integer,  idPoste integer,  idTransaction integer)', []));
 
-                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS DonneesTechniques(  idDonnees integer PRIMARY KEY,  dateDonnees text,  Poids numeric,  Nuchep text,  Nubovi text,  Sexe text,  CodeRace text,  CauseSortie text,  idTransaction integer)', []));
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS DonneesTechniques(  idDonnees integer PRIMARY KEY AUTOINCREMENT,  dateDonnees text,  Poids numeric,  Nuchep text,  Nubovi text,  Sexe text,  CodeRace text,  CauseSortie text,  idTransaction integer)', []));
 
-                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Compte(idCompte integer PRIMARY KEY,  login text,  mdp text,  libCompte text,  codeBanque text,  typeCompte text)', []));
+                    lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Compte(idCompte integer PRIMARY KEY AUTOINCREMENT,  login text,  mdp text,  libCompte text,  codeBanque text,  typeCompte text)', []));
 
                     // lProm.push(tx.executeSql('ALTER TABLE Transaction ADD FOREIGN KEY(idCompte) REFERENCES Compte (idCompte)', []));
 
@@ -112,6 +112,9 @@ export class BDDProvider {
                     
                     //on attend la fin de l'execution de tous les ordres sql
                     await Promise.all(lProm);
+
+                    await this.recupDonneesTechnique();
+
                     resolve();
                 } catch (e) {
                     reject(e);
@@ -145,6 +148,10 @@ export class BDDProvider {
             await this.db.executeSql("VACUUM", []);
             await this.db.executeSql("PRAGMA INTEGRITY_CHECK", []);
         }    
+    }
+
+    private async recupDonneesTechnique(){
+            
     }
 
     private async majBDD(versionAncien: string, versionMAJ: string) {
@@ -182,22 +189,18 @@ export class BDDProvider {
 
     }
    
-
-
-    public async getTypeAppareil() {
-        let sRequete = 'SELECT IDTYPEAPP, COTYPEAPP, LIBELLE FROM type_appareil_controle';
-        let res = await this.db.executeSql(sRequete, []);
-        let listeRes: Array<any> = [];
-        let elem: any = {};
-        for (var i = 0; i < res.rows.length; i++) {
-            elem = {};
-            let ligne = res.rows.item(i);
-            elem.IDTYPEAPP = ligne.IDTYPEAPP;
-            elem.COTYPEAPP = ligne.COTYPEAPP;
-            elem.LIBELLE   = ligne.LIBELLE;
-            listeRes.push(elem);
-        }
-        //console.log(listeRes);
-        return listeRes;
+    public async insertCompte(compte: any) {
+        let sRequete = "INSERT INTO Compte(login, mdp, codeBanque, typeCompte)VALUES (?,?,?,?)";
+        await new Promise((resolve, reject) => {
+            try {
+                this.db.transaction(async (tx: SQLiteObject) => {
+                    await tx.executeSql(sRequete, [compte.NUM, compte.MDP, compte.CODE, compte.TYPE]);
+                    resolve();
+                });
+            } catch (e) {
+                //console.log(e)
+                reject(e);
+            }
+        });
     }
 } 

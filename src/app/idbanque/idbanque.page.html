@@ -11,15 +11,15 @@
         <div>
             <ion-item>
                 <ion-label fixed>Numéro de compte</ion-label>
-                <ion-input  type="text" autocomplete="off" ></ion-input>
+                <ion-input text-right  [(ngModel)]="banque.NUM" type="text" autocomplete="off" ></ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-label fixed>Mot de passe</ion-label>
-                <ion-input type="password" inputmode="numeric" ></ion-input>
+                <ion-input text-right [(ngModel)]="banque.MDP" type="password" inputmode="numeric" ></ion-input>
             </ion-item>
 
-            <ion-item >
+            <ion-item (click)="addCompteEnBanque()">
                 <div id="ajouter">
                     <ion-button>Ajouter</ion-button>
                 </div>
