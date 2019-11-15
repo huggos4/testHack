@@ -2,6 +2,7 @@
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { insertDT } from '../assets/bdd/donneesTech';
 import { insertBQ } from '../assets/bdd/donneesBanque';
+import { insertPO } from '../assets/bdd/donneesPoste';
 
 @Injectable()
 export class BDDProvider {
@@ -115,13 +116,9 @@ export class BDDProvider {
 
                     await this.recupDonneesBanque();
                     await this.recupDonneesTechnique();
-<<<<<<< Updated upstream
-                   // await this.insertAtelier();
-                  //  await this.insertPoste();
-=======
-                    //await this.insertAtelier();
-                    await this.insertPoste();
->>>>>>> Stashed changes
+                    await this.recupDonneesPoste();
+                    //await this.recupDonneesAtelier();
+
                     resolve();
                 } catch (e) {
                     reject(e);
@@ -193,6 +190,23 @@ export class BDDProvider {
             });
     }
     
+    private async recupDonneesPoste(){
+        let dbTMP = await this.getBDD();
+            dbTMP.transaction(async (tx: SQLiteObject) => {
+                try { 
+                    let lProm: Array<Promise<any>> = [];
+                    console.log(insertPO);
+                    insertPO.forEach((script: string)=>{
+                        lProm.push(tx.executeSql(script, []));
+                    });
+                    //on attend la fin de l'execution de tous les ordres sql
+                    await Promise.all(lProm);
+                } catch (e) {
+                    console.log(e);
+                    throw e;
+                }
+            }); 
+    }
 
     private async majBDD(versionAncien: string, versionMAJ: string) {
         console.log("detection localBDD < vBDD");
@@ -208,13 +222,13 @@ export class BDDProvider {
                             lProm.push(tx.executeSql('ALTER TABLE elevage ADD COLUMN LONGITUDE character varying(10)', []));
                             lProm.push(tx.executeSql('ALTER TABLE elevage ADD COLUMN LATITUDE character varying(10)', []));
                             lProm.push(tx.executeSql('ALTER TABLE installation ADD COLUMN LAC2 integer', []));
-                    }
+                    } 
                     if (versionAncien <= "20190924") {
                         lProm.push(tx.executeSql('ALTER TABLE verification ADD COLUMN INSTALLATEUR character varying(100)', []));
                     }
                     //on attend la fin de l'execution de tous les ordres sql
                     await Promise.all(lProm);
-                } catch (e) {
+                } catch (e) { 
                     console.log(e);
                     throw e;
                 }
