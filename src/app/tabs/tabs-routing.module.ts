@@ -38,6 +38,16 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'addBanque',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../addBanque/addBanque.module').then(m => m.addBanquePageModule)
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'
