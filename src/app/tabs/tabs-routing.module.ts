@@ -38,6 +38,16 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'menu',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../menu/menu.module').then(m => m.MenuPageModule)
+          }
+        ]
+      },
+      {
         path: 'addBanque',
         children: [
           {
