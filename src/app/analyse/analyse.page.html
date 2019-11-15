@@ -1,23 +1,62 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Tab Two
+      Analyse
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-grid>
+      <ion-row class="date">
+        <ion-col class="hg" (click)="clickAnnee()">
+          <div text-center [class]="(boAnnee)? 'selected' : ''">
+            Année
+          </div>
+        </ion-col>
+        <ion-col (click)="clickMois()">
+          <div text-center [class]="(boMois)? 'selected' : ''">
+              Mois
+          </div> 
+        </ion-col>
+        <ion-col class="hd" (click)="clickBilan()">
+          <div text-center [class]="(boBilan)? 'selected' : ''">
+              Bilan
+          </div>
+        </ion-col>
+      </ion-row>
+      <br/>
+      <ion-row>
+        <ion-col class="bg" (click)="less()">
+          <div text-center>
+            <ion-icon name="arrow-dropleft-circle"></ion-icon>
+          </div>
+        </ion-col>
+        <ion-col>
+          <div text-center class="bm">
+            <ion-label>{{sdate}}</ion-label>
+          </div>
+        </ion-col>
+        <ion-col class="bd">
+          <div text-center (click)="add()">
+              <ion-icon name="arrow-dropright-circle"></ion-icon>
+          </div>
+        </ion-col>
+      </ion-row>
+  </ion-grid>
   <ion-slides pager="true" >
     <ion-slide>
       <div class="diagram">
-      <div id="container" ></div>
+        <div id="container" ></div>
       </div>
     </ion-slide>
     <ion-slide>
         <div class="diagram">
-      <div id="container2"></div>
-      </div>
+          <div id="container2"></div>
+        </div>
     </ion-slide>
   </ion-slides>
+  <ion-list>
 
+  </ion-list>
 </ion-content>
