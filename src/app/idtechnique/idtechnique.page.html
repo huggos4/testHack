@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Ajouter un compte de données techniques
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <div>
+            <ion-item>
+                <ion-label fixed>Numéro de compte</ion-label>
+                <ion-input text-right  [(ngModel)]="compteTech.NUM" type="text" autocomplete="off" ></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label fixed>Mot de passe</ion-label>
+                <ion-input text-right [(ngModel)]="compteTech.MDP" type="password" inputmode="numeric" ></ion-input>
+            </ion-item>
+
+            <ion-item (click)="addCompteTechnique()">
+                <div id="ajouter">
+                    <ion-button>Ajouter</ion-button>
+                </div>
+            </ion-item>
+                    
+            
+        </div>            
+    </ion-list>
+</ion-content>

@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Ajouter un atelier
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <div>
+            <ion-item>
+                <ion-label fixed>Nom de l'atelier</ion-label>
+                <ion-input text-right  [(ngModel)]="atelier.libAtelier" type="text" ></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label fixed>Code atelier</ion-label>
+                <ion-input text-right [(ngModel)]="atelier.codeAtelier" type="text" ></ion-input>
+            </ion-item>
+
+            <ion-item (click)="addAtelier()">
+                <div id="ajouter">
+                    <ion-button>Ajouter</ion-button>
+                </div>
+            </ion-item>
+                    
+            
+        </div>            
+    </ion-list>
+</ion-content>
