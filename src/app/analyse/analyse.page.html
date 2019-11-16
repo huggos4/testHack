@@ -49,21 +49,73 @@
       <div class="diagram">
         <div id="container" ></div>
       </div>
+      <ion-grid>
+          <ion-row item *ngFor="let operation of listeOperations;" (click)=redirectDetailOperation(operation.idTransaction)>
+            <ion-col size="4">{{operation.dateTransaction}} 
+              <img style="max-width: 50px;" [src]="(operation.idCompte==1)? 'assets/1200px-Crédit_Agricole.svg.png' : '../assets/Banquepopulaire_logo.svg'">
+            </ion-col>
+             <ion-col size="5">
+               <i style="font-size:14px">{{operation.libTransaction}} ... </i> 
+               <b style="font-size:12px">{{operation.libAtelier}} {{operation.libPoste}}
+                </b>
+              </ion-col>
+               <ion-col size="3">{{operation.montantTransaction}} €</ion-col>
+          </ion-row>
+        </ion-grid>
     </ion-slide>
     <ion-slide>
         <div class="diagram">
           <div id="container2"></div>
         </div>
+        <ion-grid>
+            <ion-row item *ngFor="let operation of listeOperations2;" (click)=redirectDetailOperation(operation.idTransaction)>
+              <ion-col size="4">{{operation.dateTransaction}} 
+                <img style="max-width: 50px;" [src]="(operation.idCompte==1)? 'assets/1200px-Crédit_Agricole.svg.png' : '../assets/Banquepopulaire_logo.svg'">
+              </ion-col>
+               <ion-col size="5">
+                 <i style="font-size:14px">{{operation.libTransaction}} ... </i> 
+                 <b style="font-size:12px">{{operation.libAtelier}} {{operation.libPoste}}
+                  </b>
+                </ion-col>
+                 <ion-col size="3">{{operation.montantTransaction}} €</ion-col>
+            </ion-row>
+          </ion-grid>
     </ion-slide>
     <ion-slide>
         <div class="diagram">
           <div id="container3"></div>
         </div>
+        <ion-grid>
+            <ion-row item *ngFor="let operation of listeOperations3;" (click)=redirectDetailOperation(operation.idTransaction)>
+              <ion-col size="4">{{operation.dateTransaction}} 
+                <img style="max-width: 50px;" [src]="(operation.idCompte==1)? 'assets/1200px-Crédit_Agricole.svg.png' : '../assets/Banquepopulaire_logo.svg'">
+              </ion-col>
+               <ion-col size="5">
+                 <i style="font-size:14px">{{operation.libTransaction}} ... </i> 
+                 <b style="font-size:12px">{{operation.libAtelier}} {{operation.libPoste}}
+                  </b>
+                </ion-col>
+                 <ion-col size="3">{{operation.montantTransaction}} €</ion-col>
+            </ion-row>
+          </ion-grid>
     </ion-slide>
     <ion-slide>
         <div class="diagram">
           <div id="container4"></div>
         </div>
+        <ion-grid>
+            <ion-row item *ngFor="let operation of listeOperations4;" (click)=redirectDetailOperation(operation.idTransaction)>
+              <ion-col size="4">{{operation.dateTransaction}} 
+                <img style="max-width: 50px;" [src]="(operation.idCompte==1)? 'assets/1200px-Crédit_Agricole.svg.png' : '../assets/Banquepopulaire_logo.svg'">
+              </ion-col>
+              <ion-col size="5">
+                <i style="font-size:14px">{{operation.libTransaction}} ... </i> 
+                <b style="font-size:12px">{{operation.libAtelier}} {{operation.libPoste}}
+                  </b>
+                </ion-col>
+                <ion-col size="3">{{operation.montantTransaction}} €</ion-col>
+            </ion-row>
+          </ion-grid>
     </ion-slide>
   </ion-slides>
   <ion-list>

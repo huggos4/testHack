@@ -15,6 +15,11 @@ export class analysePage {
   public boBilan: boolean = false;
   public boMois: boolean = true;
 
+  public listeOperations: Array<any> = [];
+  public listeOperations2: Array<any> = [];
+  public listeOperations3: Array<any> = [];
+  public listeOperations4: Array<any> = [];
+
   constructor(public bdd : BDDProvider) {
   }
 
@@ -24,12 +29,19 @@ export class analysePage {
     try{
       let list = await this.bdd.getAnalysesPoste(this.date.getMonth().toString());
       await this.setChart('container', list, 'Exploitation' );
+      this.listeOperations = await this.bdd.getAnalysesPosteDetails(this.date.getMonth().toString());
+
       list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 3);
       this.setChart('container2', list, 'Atelier Viande' );
+      this.listeOperations2 = await this.bdd.getAnalysesAtelierDetails(this.date.getMonth().toString(), 3);
+
       list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 2);
-      this.setChart('container3', list, 'Atelier Lait' );
+      await this.setChart('container3', list, 'Atelier Lait' );
+      this.listeOperations3 = await this.bdd.getAnalysesAtelierDetails(this.date.getMonth().toString(), 2);
+
       list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 1);
-      this.setChart('container4', list, 'Non affectable' );
+      await this.setChart('container4', list, 'Non affectable' );
+      this.listeOperations4 = await this.bdd.getAnalysesAtelierDetails(this.date.getMonth().toString(), 1);
 
     }catch(e){
       console.log(e);
@@ -77,12 +89,17 @@ export class analysePage {
     try{
       let list = await this.bdd.getAnalysesPosteAnnee();
       this.setChart('container', list, 'Exploitation');
+      this.listeOperations = await this.bdd.getAnalysesPosteDetailsAnnee();
+
       list = await this.bdd.getAnalysesAtelierAnnee(3);
       this.setChart('container2', list, 'Atelier Viande' );
+      this.listeOperations = await this.bdd.getAnalysesAtelierDetailsAnnee(3);
       list = await this.bdd.getAnalysesAtelierAnnee(2);
       this.setChart('container3', list, 'Atelier Lait' );
+      this.listeOperations = await this.bdd.getAnalysesAtelierDetailsAnnee(2);
       list = await this.bdd.getAnalysesAtelierAnnee(1);
       this.setChart('container4', list, 'Non affectable' );
+      this.listeOperations = await this.bdd.getAnalysesAtelierDetailsAnnee(1);
       
 
     }catch(e){
@@ -100,13 +117,19 @@ export class analysePage {
     try{
       let list = await this.bdd.getAnalysesPoste(this.date.getMonth().toString());
       this.setChart('container', list, 'Exploitation');
+      this.listeOperations = await this.bdd.getAnalysesPosteDetails(this.date.getMonth().toString());
+
       list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 3);
       this.setChart('container2', list, 'Atelier Viande' );
-      list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 2);
-      this.setChart('container3', list, 'Atelier Lait' );
-      list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 1);
-      this.setChart('container4', list, 'Non affectable' );
+      this.listeOperations2 = await this.bdd.getAnalysesAtelierDetails(this.date.getMonth().toString(), 3);
 
+      list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 2);
+      await this.setChart('container3', list, 'Atelier Lait' );
+      this.listeOperations3 = await this.bdd.getAnalysesAtelierDetails(this.date.getMonth().toString(), 2);
+
+      list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 1);
+      await this.setChart('container4', list, 'Non affectable' );
+      this.listeOperations4 = await this.bdd.getAnalysesAtelierDetails(this.date.getMonth().toString(), 1);
 
 
     }catch(e){
@@ -129,6 +152,7 @@ async add(){
   if(this.boAnnee){
     this.date = new Date(this.date.getFullYear() + 1, this.date.getMonth() , this.date.getDay())
     this.sdate = this.date.getFullYear().toString();
+
   }
   if(this.boMois){
     this.date = new Date(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDay());
@@ -136,12 +160,19 @@ async add(){
     try{
       let list = await this.bdd.getAnalysesPoste(this.date.getMonth().toString());
       this.setChart('container', list, 'Exploitation');
+      this.listeOperations = await this.bdd.getAnalysesPosteDetails(this.date.getMonth().toString());
+
       list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 3);
       this.setChart('container2', list, 'Atelier Viande' );
+      this.listeOperations2 = await this.bdd.getAnalysesAtelierDetails(this.date.getMonth().toString(), 3);
+
       list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 2);
-      this.setChart('container3', list, 'Atelier Lait' );
+      await this.setChart('container3', list, 'Atelier Lait' );
+      this.listeOperations3 = await this.bdd.getAnalysesAtelierDetails(this.date.getMonth().toString(), 2);
+
       list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 1);
-      this.setChart('container4', list, 'Non affectable' );
+      await this.setChart('container4', list, 'Non affectable' );
+      this.listeOperations4 = await this.bdd.getAnalysesAtelierDetails(this.date.getMonth().toString(), 1);
 
     }catch(e){
       console.log(e);
@@ -160,12 +191,19 @@ async less(){
     try{
       let list = await this.bdd.getAnalysesPoste(this.date.getMonth().toString());
       this.setChart('container', list, 'Exploitation');
+      this.listeOperations = await this.bdd.getAnalysesPosteDetails(this.date.getMonth().toString());
+
       list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 3);
       this.setChart('container2', list, 'Atelier Viande' );
+      this.listeOperations2 = await this.bdd.getAnalysesAtelierDetails(this.date.getMonth().toString(), 3);
+
       list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 2);
-      this.setChart('container3', list, 'Atelier Lait' );
+      await this.setChart('container3', list, 'Atelier Lait' );
+      this.listeOperations3 = await this.bdd.getAnalysesAtelierDetails(this.date.getMonth().toString(), 2);
+
       list = await this.bdd.getAnalysesAtelier(this.date.getMonth().toString(), 1);
-      this.setChart('container4', list, 'Non affectable' );
+      await this.setChart('container4', list, 'Non affectable' );
+      this.listeOperations4 = await this.bdd.getAnalysesAtelierDetails(this.date.getMonth().toString(), 1);
 
 
 
