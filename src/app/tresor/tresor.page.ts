@@ -12,11 +12,21 @@ export class tresorPage {
 
   async ionViewWillEnter(){
       this.titre="Trésorerie";
-      this.url="../assets/blanc.jpg";
+      this.url="../assets/tresor.PNG";
   }
 
   changePage(){
-    this.titre="Stock";
-    this.url="../assets/blanc.jpg";
+    if(this.url=="../assets/vente.PNG"){
+      this.url="../assets/stock.PNG";
+      this.titre = "Stock";
+    }else if(this.url=="../assets/tresor.PNG"){
+      this.url="../assets/vente.PNG";
+      this.titre = "Vente";
+
+    }else if(this.url=="../assets/stock.PNG"){
+      this.url="../assets/tresor.PNG";
+      this.titre = "Trésor";
+
+    }
   }
 }

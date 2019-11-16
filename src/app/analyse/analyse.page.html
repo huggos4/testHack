@@ -49,6 +49,16 @@
       <div class="diagram">
         <div id="container" ></div>
       </div>
+      <ion-item-divider>
+      </ion-item-divider>
+      <!-- <ion-item-divider>
+        <ion-label style="width: 50%" text-left>
+          Entrées : <a class="green">1000€</a>
+        </ion-label>
+        <ion-label style="width: 50%" text-left color="red">
+          Dépenses : <a class="red">1000€</a>
+        </ion-label>
+      </ion-item-divider> -->
       <ion-grid>
           <ion-row item *ngFor="let operation of listeOperations;" (click)=redirectDetailOperation(operation.idTransaction)>
             <ion-col size="4">{{operation.dateTransaction}} 
@@ -67,6 +77,8 @@
         <div class="diagram">
           <div id="container2"></div>
         </div>
+        <ion-item-divider>
+        </ion-item-divider>
         <ion-grid>
             <ion-row item *ngFor="let operation of listeOperations2;" (click)=redirectDetailOperation(operation.idTransaction)>
               <ion-col size="4">{{operation.dateTransaction}} 
@@ -85,6 +97,8 @@
         <div class="diagram">
           <div id="container3"></div>
         </div>
+        <ion-item-divider>
+        </ion-item-divider>
         <ion-grid>
             <ion-row item *ngFor="let operation of listeOperations3;" (click)=redirectDetailOperation(operation.idTransaction)>
               <ion-col size="4">{{operation.dateTransaction}} 
@@ -103,6 +117,8 @@
         <div class="diagram">
           <div id="container4"></div>
         </div>
+        <ion-item-divider>
+        </ion-item-divider>
         <ion-grid>
             <ion-row item *ngFor="let operation of listeOperations4;" (click)=redirectDetailOperation(operation.idTransaction)>
               <ion-col size="4">{{operation.dateTransaction}} 

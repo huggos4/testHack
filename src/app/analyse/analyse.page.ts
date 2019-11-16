@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import * as HighCharts from 'highcharts';
 import { BDDProvider } from 'src/services/BDD.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-analyse',
@@ -20,7 +21,7 @@ export class analysePage {
   public listeOperations3: Array<any> = [];
   public listeOperations4: Array<any> = [];
 
-  constructor(public bdd : BDDProvider) {
+  constructor(public bdd : BDDProvider, public nav: NavController) {
   }
 
   async ionViewWillEnter(){
@@ -277,4 +278,12 @@ async less(){
       }
     }
   }
+
+  redirectDetailOperation(idOperation:any) {
+    console.log(idOperation);
+    sessionStorage.setItem("idOperation", idOperation);
+     this.nav.navigateRoot("tabs/detailoperation");
+ 
+   }
+ 
 }
