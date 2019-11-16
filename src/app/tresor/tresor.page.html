@@ -1,9 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Tab Three
+      {{titre}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
+ 
+<ion-content>
 
-<ion-content></ion-content>
+    <img style="min-height: 510px;" [src]="url" (click)="changePage()">
+</ion-content>
