@@ -29,7 +29,9 @@ export class detailoperationPage {
 
   async insertAffectation(){
     this.bdd.insertAffectation(this.elemSelecAtelier, this.elemSelecPoste, this.operation.idTransaction)
-    this.nav.navigateRoot("tabs/compte");
+    sessionStorage.setItem("idCompte",  this.operation.idCompte);
+    this.nav.navigateRoot("tabs/operations");
+
   }
 
 
