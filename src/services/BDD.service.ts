@@ -5,8 +5,6 @@ import { insertBQ } from '../assets/bdd/donneesBanque';
 import { insertPO } from '../assets/bdd/donneesPoste';
 import { insertAT } from '../assets/bdd/donneesAtelier';
 import { insertAF } from '../assets/bdd/donneesAffectation';
-import { analysePage } from 'src/app/analyse/analyse.page';
-import { idbanquePage } from 'src/app/idbanque/idbanque.page';
 
 @Injectable()
 export class BDDProvider {
@@ -104,7 +102,7 @@ export class BDDProvider {
                     lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS DonneesTechniques(  idDonnees integer PRIMARY KEY AUTOINCREMENT,  dateDonnees text,  Poids numeric,  Nuchep text,  Nubovi text,  Sexe text,  CodeRace text,  CauseSortie text,  idTransaction integer)', []));
 
                     lProm.push(tx.executeSql('CREATE TABLE IF NOT EXISTS Compte(idCompte integer PRIMARY KEY AUTOINCREMENT,  login text,  mdp text,  libCompte text,  codeBanque text,  typeCompte text)', []));
- 
+
                     // lProm.push(tx.executeSql('ALTER TABLE Transaction ADD FOREIGN KEY(idCompte) REFERENCES Compte (idCompte)', []));
  
                     // lProm.push(tx.executeSql('ALTER TABLE Affectation ADD FOREIGN KEY(idAtelier) REFERENCES Atelier (idAtelier)', []));
@@ -620,6 +618,97 @@ export class BDDProvider {
         } 
         console.log(listeRes);
         return listeRes;
-    }
+    } 
 
-} 
+    
+    public async getAnalysesPosteDetails(mois: string) {
+        if (!this.db || this.db == null ||  this.db == undefined) {
+            await this.getBDD();
+        }
+        if(mois.length == 1){
+            mois = '0'+ mois;
+        }
+        let sRequete1 = 'SELECT t.idTransaction, t.montantTransaction, t.libTransaction, t.dateTransaction, (substr(t.dateTransaction,7)||substr(t.dateTransaction,4,2)||substr(t.dateTransaction,1,2)) as date, t.idCompte, p.idAtelier, p.libAtelier, pp.idPoste, pp.libPoste  ' + 
+        ' FROM Transac t LEFT JOIN Affectation a on a.idTransaction = t.idTransaction '+
+        ' LEFT JOIN Atelier p ON p.idAtelier = a.idAtelier '+
+        ' LEFT JOIN Poste pp ON a.idPoste = pp.idPoste '+
+        ' WHERE substr(t.dateTransaction,4,2) = ? ' +
+        ' ORDER BY date desc';
+        let res1 = await this.db.executeSql(sRequete1, [mois]);
+        let listeRes: Array<any> = [];
+        let item = null;
+        for (var i = 0; i < res1.rows.length; i++) {
+            item = res1.rows.item(i);
+            listeRes.push(item);
+        } 
+        console.log("ok");
+        console.log(listeRes);
+        return listeRes;
+    } 
+
+    
+    public async getAnalysesPosteDetailsAnnee() {
+        if (!this.db || this.db == null ||  this.db == undefined) {
+            await this.getBDD();
+        }
+        let sRequete1 = 'SELECT t.idTransaction, t.montantTransaction, t.libTransaction, t.dateTransaction, (substr(t.dateTransaction,7)||substr(t.dateTransaction,4,2)||substr(t.dateTransaction,1,2)) as date, t.idCompte, p.idAtelier, p.libAtelier, pp.idPoste, pp.libPoste  ' + 
+        ' FROM Transac t LEFT JOIN Affectation a on a.idTransaction = t.idTransaction '+
+        ' LEFT JOIN Atelier p ON p.idAtelier = a.idAtelier '+
+        ' LEFT JOIN Poste pp ON a.idPoste = pp.idPoste '+
+        ' ORDER BY date desc'; 
+        let res1 = await this.db.executeSql(sRequete1, []);
+        let listeRes: Array<any> = [];
+        let item = null;
+        for (var i = 0; i < res1.rows.length; i++) {
+            item = res1.rows.item(i);
+            listeRes.push(item);
+        } 
+        console.log(listeRes);
+        return listeRes;
+    } 
+
+    public async getAnalysesAtelierDetails(mois: string, idAtelier: number) {
+        if (!this.db || this.db == null ||  this.db == undefined) {
+            await this.getBDD();
+        }
+        if(mois.length == 1){
+            mois = '0'+ mois;
+        }
+        let sRequete1 = 'SELECT t.idTransaction, t.montantTransaction, t.libTransaction, t.dateTransaction, (substr(t.dateTransaction,7)||substr(t.dateTransaction,4,2)||substr(t.dateTransaction,1,2)) as date, t.idCompte, p.idAtelier, p.libAtelier, pp.idPoste, pp.libPoste  ' + 
+        ' FROM Transac t LEFT JOIN Affectation a on a.idTransaction = t.idTransaction '+
+        ' LEFT JOIN Atelier p ON p.idAtelier = a.idAtelier '+
+        ' LEFT JOIN Poste pp ON a.idPoste = pp.idPoste '+
+        ' WHERE substr(t.dateTransaction,4,2) = ? AND p.idAtelier = ? ' +
+        ' ORDER BY date desc';
+        let res1 = await this.db.executeSql(sRequete1, [mois, idAtelier]);
+        let listeRes: Array<any> = [];
+        let item = null;
+        for (var i = 0; i < res1.rows.length; i++) {
+            item = res1.rows.item(i);
+            listeRes.push(item);
+        } 
+        console.log(listeRes);
+        return listeRes;
+    } 
+    
+    public async getAnalysesAtelierDetailsAnnee(idAtelier: number) {
+        if (!this.db || this.db == null ||  this.db == undefined) {
+            await this.getBDD();
+        }
+        let sRequete1 = 'SELECT t.idTransaction, t.montantTransaction, t.libTransaction, t.dateTransaction, (substr(t.dateTransaction,7)||substr(t.dateTransaction,4,2)||substr(t.dateTransaction,1,2)) as date, t.idCompte, p.idAtelier, p.libAtelier, pp.idPoste, pp.libPoste  ' + 
+        ' FROM Transac t LEFT JOIN Affectation a on a.idTransaction = t.idTransaction '+
+        ' LEFT JOIN Atelier p ON p.idAtelier = a.idAtelier '+
+        ' LEFT JOIN Poste pp ON a.idPoste = pp.idPoste '+
+        ' WHERE p.idAtelier = ? ' +
+        ' ORDER BY date desc';
+        let res1 = await this.db.executeSql(sRequete1, [idAtelier]);
+        let listeRes: Array<any> = [];
+        let item = null;
+        for (var i = 0; i < res1.rows.length; i++) {
+            item = res1.rows.item(i);
+            listeRes.push(item);
+        } 
+        console.log(listeRes);
+        return listeRes;
+    } 
+}  
