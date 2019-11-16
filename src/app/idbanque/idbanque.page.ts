@@ -19,7 +19,7 @@ export class idbanquePage {
     this.banque.CODE = sessionStorage.getItem("Code");
     this.banque.TYPE= "B";
     await this.bdd.insertCompte(this.banque);
-    console.log(this.banque);
+    this.nav.navigateRoot("tabs/compte");
   }
 
 

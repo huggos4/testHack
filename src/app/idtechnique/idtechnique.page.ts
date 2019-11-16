@@ -19,7 +19,7 @@ export class idtechniquePage {
     this.compteTech.CODE = sessionStorage.getItem("Code");
     this.compteTech.TYPE= "T";
     await this.bdd.insertCompte(this.compteTech);
-    console.log(this.compteTech);
+    this.nav.navigateRoot("tabs/compte");
   }
 
 

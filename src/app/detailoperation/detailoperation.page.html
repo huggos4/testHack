@@ -21,21 +21,21 @@
     <ion-row>
         <ion-col>
           <ion-label>Poste : </ion-label>
-          <select name="poste" [(ngModel)]="elemSelecPoste">
-            <option value=""></option>
-            <option *ngFor="let poste of postes" value="{{poste.idPoste}}">{{poste.libPoste}}</option>
+          <ion-select name="poste" [(ngModel)]="elemSelecPoste">
+            <ion-select-option value="null"></ion-select-option>
+            <ion-select-option *ngFor="let poste of postes" value="poste.idPoste" [selected]="(poste.idPoste==operation.idPoste)? true :  false">{{poste.libPoste}}</ion-select-option>
 
-          </select>
+          </ion-select>
         </ion-col>
       </ion-row>
       <ion-row>
           <ion-col>
-            <ion-label>Atelier : </ion-label>
-            <select name="atelier" [(ngModel)]="elemSelecAtelier" >
-              <option value=""></option>
-              <option *ngFor="let atelier of ateliers" value="{{atelier.idAtelier}}">{{atelier.libAtelier}}</option>
+            <ion-label>Atelier : </ion-label> 
+            <ion-select name="atelier" [(ngModel)]="elemSelecAtelier" >
+              <ion-select-option value="null"></ion-select-option>
+              <ion-select-option *ngFor="let atelier of ateliers" [value]="atelier.idAtelier" [selected]="(atelier.idAtelier==operation.idAtelier)? true :  false">{{atelier.libAtelier}}</ion-select-option>
                 
-            </select>
+            </ion-select>
           </ion-col>
         </ion-row>
         <ion-button (click)="insertAffectation(elemSelecAtelier, elemSelecPoste, operation.idTransaction)">Modifier</ion-button>

@@ -356,13 +356,11 @@ export class BDDProvider {
         }
         let sRequete;
         if (!idCompte){
-             sRequete ='SELECT Transac.idTransaction, montantTransaction, SUBSTR(libTransaction, 1, 40) as libTransaction, dateTransaction, (substr(dateTransaction,7)||substr(dateTransaction,4,2)||substr(dateTransaction,1,2)) as date, Transac.idCompte, libAtelier, libPoste from Transac, Affectation, Atelier, Poste, Compte WHERE Transac.idTransaction = Affectation.idTransaction AND Poste.idPoste = Affectation.idPoste AND Atelier.idAtelier = Affectation.idAtelier ORDER BY date DESC';
+             sRequete ='SELECT DISTINCT Transac.idTransaction, montantTransaction, SUBSTR(libTransaction, 1, 40) as libTransaction, dateTransaction, (substr(dateTransaction,7)||substr(dateTransaction,4,2)||substr(dateTransaction,1,2)) as date, Transac.idCompte, libAtelier, libPoste from Transac, Affectation, Atelier, Poste, Compte WHERE Transac.idTransaction = Affectation.idTransaction AND Poste.idPoste = Affectation.idPoste AND Atelier.idAtelier = Affectation.idAtelier ORDER BY date DESC';
         }
         else {
-             sRequete = 'SELECT Transac.idTransaction, montantTransaction, SUBSTR(libTransaction, 1, 40) as libTransaction, dateTransaction, (substr(dateTransaction,7)||substr(dateTransaction,4,2)||substr(dateTransaction,1,2)) as date, Transac.idCompte, libAtelier, libPoste from Transac , Affectation, Atelier, Poste, Compte WHERE Compte.idCompte = ? AND  Transac.idTransaction = Affectation.idTransaction AND Poste.idPoste = Affectation.idPoste AND Atelier.idAtelier = Affectation.idAtelier AND Transac.idCompte = Compte.idCompte ORDER BY date DESC';
+             sRequete = 'SELECT DISTINCT Transac.idTransaction, montantTransaction, SUBSTR(libTransaction, 1, 40) as libTransaction, dateTransaction, (substr(dateTransaction,7)||substr(dateTransaction,4,2)||substr(dateTransaction,1,2)) as date, Transac.idCompte, libAtelier, libPoste from Transac , Affectation, Atelier, Poste, Compte WHERE Compte.idCompte = ? AND  Transac.idTransaction = Affectation.idTransaction AND Poste.idPoste = Affectation.idPoste AND Atelier.idAtelier = Affectation.idAtelier AND Transac.idCompte = Compte.idCompte ORDER BY date DESC';
         }
-        console.log(idCompte);
-        console.log(sRequete);
         let res;
         if (!idCompte){
             try{
@@ -441,10 +439,7 @@ export class BDDProvider {
         }
         let sRequete;
         let operation:any;
-        sRequete = 'SELECT Transac.idTransaction, montantTransaction, libTransaction, dateTransaction, (substr(dateTransaction,7)||substr(dateTransaction,4,2)||substr(dateTransaction,1,2)) as date, Transac.idCompte, Atelier.idAtelier, libAtelier, Poste.idPoste, libPoste from Transac , Affectation, Atelier, Poste, Compte WHERE Transac.idTransaction = ? AND  Transac.idTransaction = Affectation.idTransaction AND Poste.idPoste = Affectation.idPoste AND Atelier.idAtelier = Affectation.idAtelier AND Transac.idCompte = Compte.idCompte ORDER BY date DESC';
-        console.log("TEST");
-        console.log(idOperation);
-        console.log(sRequete);
+        sRequete = 'SELECT Transac.idTransaction, montantTransaction, libTransaction, dateTransaction, (substr(dateTransaction,7)||substr(dateTransaction,4,2)||substr(dateTransaction,1,2)) as date, Transac.idCompte, Atelier.idAtelier as idAtelier, libAtelier, Poste.idPoste as idPoste, libPoste from Transac , Affectation, Atelier, Poste, Compte WHERE Transac.idTransaction = ? AND  Transac.idTransaction = Affectation.idTransaction AND Poste.idPoste = Affectation.idPoste AND Atelier.idAtelier = Affectation.idAtelier AND Transac.idCompte = Compte.idCompte ORDER BY date DESC';
         let res;
             try{
                 res = await this.db.executeSql(sRequete, [idOperation]);     
