@@ -23,7 +23,7 @@
           <ion-label>Poste : </ion-label>
           <ion-select name="poste" [(ngModel)]="elemSelecPoste">
             <ion-select-option value="null"></ion-select-option>
-            <ion-select-option *ngFor="let poste of postes" value="poste.idPoste" [selected]="(poste.idPoste==operation.idPoste)? true :  false">{{poste.libPoste}}</ion-select-option>
+            <ion-select-option *ngFor="let poste of postes" [value]="poste.idPoste" [selected]="(poste.idPoste==operation.idPoste)? true :  false">{{poste.libPoste}}</ion-select-option>
 
           </ion-select>
         </ion-col>
